@@ -2,6 +2,7 @@
 #
 # Test cases for tournament.py
 
+import random
 from tournament import *
 
 def testDeleteMatches():
@@ -125,6 +126,60 @@ def testPairings():
     print "8. After one match, players with one win are paired."
 
 
+def simulateFullTournament():
+    """Creates and simulates a tournament of 16 players.
+
+    Fun Fact: Players names are characters from 4 of my favorite TV
+    shows: White Collar, Seinfeld, Castle, and Burn Notice.
+    """
+    deleteMatches()
+    deletePlayers()
+    all_players = ["Neal Caffrey", "Peter Burke",
+                   "Mozzie", "Clinton Jones",
+                   "Jerry Seinfeld", "George Costanza",
+                   "Elaine Benes", "Cosmo Kramer",
+                   "Richard Castle", "Kate Beckett",
+                   "Javier Esposito", "Kevin Ryan",
+                   "Michael Westen", "Sam Axe",
+                   "Fiona Glenanne", "Jesse Porter"]
+    for player in all_players:
+        registerPlayer(player)
+    num_rounds = countRounds()
+
+    print "\nIT'S TOURNAMENT TIME!\n------------------------\n"
+    print "Number of Players: {0}\nNumber of Rounds: {1}".format(
+        len(all_players), num_rounds
+    )
+
+    # Loop over rounds, create matchups, generate random winner, report match
+    for num in range(0, num_rounds):
+        print "\nROUND #{0}\n------------------------".format(num + 1)
+        pairings = swissPairings()
+        for pair in pairings:
+            rand = int(round(random.randint(0, 1)))
+            winner = (pair[0], pair[1]) if rand == 0 else (pair[2], pair[3])
+            loser = (pair[0], pair[1]) if rand == 1 else (pair[2], pair[3])
+            winner_record = playerRecord(winner[0])
+            loser_record = playerRecord(loser[0])
+            print "  > {0} ({1}-{2}) vs. {3} ({4}-{5})".format(
+                winner[1], winner_record[0], winner_record[1],
+                loser[1], loser_record[0], loser_record[1]
+            )
+            reportMatch(winner[0], loser[0])
+
+    # Get final standings
+    standings = playerStandings()
+    print "\nFINAL STANDINGS\n------------------------"
+    rank = 1
+    for player in standings:
+        player_record = playerRecord(player[0])
+        print "  {0}. {1} ({2}-{3})".format(
+            rank, player[1], player_record[0], player_record[1]
+        )
+        rank += 1
+    print " "
+
+
 if __name__ == '__main__':
     testDeleteMatches()
     testDelete()
@@ -135,5 +190,6 @@ if __name__ == '__main__':
     testReportMatches()
     testPairings()
     print "Success!  All tests pass!"
+    simulateFullTournament()
 
 
