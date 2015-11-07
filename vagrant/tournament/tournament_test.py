@@ -155,17 +155,20 @@ def simulateFullTournament():
     for num in range(0, num_rounds):
         print "\nROUND #{0}\n------------------------".format(num + 1)
         pairings = swissPairings()
+        match_num = 1
         for pair in pairings:
             rand = int(round(random.randint(0, 1)))
             winner = (pair[0], pair[1]) if rand == 0 else (pair[2], pair[3])
             loser = (pair[0], pair[1]) if rand == 1 else (pair[2], pair[3])
             winner_record = playerRecord(winner[0])
             loser_record = playerRecord(loser[0])
-            print "  > {0} ({1}-{2}) vs. {3} ({4}-{5})".format(
+            print "  > Match {0}: {1} ({2}-{3}) vs. {4} ({5}-{6})".format(
+                match_num,
                 winner[1], winner_record[0], winner_record[1],
                 loser[1], loser_record[0], loser_record[1]
             )
             reportMatch(winner[0], loser[0])
+            match_num += 1
 
     # Get final standings
     standings = playerStandings()
