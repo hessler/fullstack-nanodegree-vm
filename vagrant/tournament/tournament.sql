@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS tbl_players (
 
 CREATE TABLE IF NOT EXISTS tbl_matches (
     match_id serial PRIMARY KEY,
-    winner_id integer,
-    loser_id integer
+    winner_id integer REFERENCES tbl_players (player_id),
+    loser_id integer REFERENCES tbl_players (player_id)
 );
 
 CREATE VIEW view_all_matches AS 
