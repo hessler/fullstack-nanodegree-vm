@@ -1,22 +1,28 @@
+"""
+This module contains test cases for tournament.py, testing various
+aspects of the implementation of a Swiss-system tournament.
+"""
+
 #!/usr/bin/env python
-#
-# Test cases for tournament.py
 
 import random
 from tournament import *
 
 def testDeleteMatches():
+    """Test to delete all old matches."""
     deleteMatches()
     print "1. Old matches can be deleted."
 
 
 def testDelete():
+    """Test to delete all players."""
     deleteMatches()
     deletePlayers()
     print "2. Player records can be deleted."
 
 
 def testCount():
+    """Test to count the number of players after having deleted them."""
     deleteMatches()
     deletePlayers()
     c = countPlayers()
@@ -29,6 +35,7 @@ def testCount():
 
 
 def testRegister():
+    """Test to register a player and retrieve player count."""
     deleteMatches()
     deletePlayers()
     registerPlayer("Chandra Nalaar")
@@ -40,6 +47,7 @@ def testRegister():
 
 
 def testRegisterCountDelete():
+    """Test to register and count players, then delete and re-count."""
     deleteMatches()
     deletePlayers()
     registerPlayer("Markov Chaney")
@@ -58,6 +66,7 @@ def testRegisterCountDelete():
 
 
 def testStandingsBeforeMatches():
+    """Test to check for valid player standings before matches."""
     deleteMatches()
     deletePlayers()
     registerPlayer("Melpomene Murray")
@@ -81,6 +90,7 @@ def testStandingsBeforeMatches():
 
 
 def testReportMatches():
+    """Test to report matches and validate accurate player standings."""
     deleteMatches()
     deletePlayers()
     registerPlayer("Bruno Walton")
@@ -103,6 +113,7 @@ def testReportMatches():
 
 
 def testPairings():
+    """Test to validate correct pairings of players based on records."""
     deleteMatches()
     deletePlayers()
     registerPlayer("Twilight Sparkle")
@@ -158,8 +169,12 @@ def simulateFullTournament():
         match_num = 1
         for pair in pairings:
             rand = int(round(random.randint(0, 1)))
-            winner = (pair[0], pair[1]) if rand == 0 else (pair[2], pair[3])
-            loser = (pair[0], pair[1]) if rand == 1 else (pair[2], pair[3])
+            # Guard against winner being the "Bye", even though this is
+            # already guarded against in reportMatch() in tournament.py
+            winner = (pair[0], pair[1]) if rand == 0 or pair[2] is -1 \
+                else (pair[2], pair[3])
+            loser = (pair[0], pair[1]) if rand == 1 and pair[2] is not -1 \
+                else (pair[2], pair[3])
             winner_record = playerRecord(winner[0])
             loser_record = playerRecord(loser[0])
             print "  > Match {0}: {1} ({2}-{3}) vs. {4} ({5}-{6})".format(
@@ -194,5 +209,3 @@ if __name__ == '__main__':
     testPairings()
     print "Success!  All tests pass!"
     simulateFullTournament()
-
-

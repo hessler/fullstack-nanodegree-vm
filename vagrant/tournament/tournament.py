@@ -9,9 +9,18 @@ import math
 import psycopg2
 
 
-def connect():
-    """Connect to the PostgreSQL database.  Returns a database connection."""
-    return psycopg2.connect("dbname=tournament")
+def connect(database_name="tournament"):
+    """Connect to the PostgreSQL database.
+
+    Returns:
+      A database connection and cursor.
+    """
+    try:
+        conn = psycopg2.connect("dbname={}".format(database_name))
+        cursor = conn.cursor()
+        return conn, cursor
+    except psycopg2.DatabaseError, ex:
+        print "Error connecting to the database: {}".format(str(ex))
 
 
 def runSimpleQuery(query, params=None):
@@ -21,12 +30,10 @@ def runSimpleQuery(query, params=None):
       query: the query to run
       params: optional parameters to run when executing the query
     """
-    conn = connect()
-    cursor = conn.cursor()
+    conn, cursor = connect()
     cursor.execute(query, params)
     conn.commit()
     conn.close()
-
 
 
 def deleteMatches():
@@ -41,8 +48,7 @@ def deletePlayers():
 
 def countPlayers():
     """Returns the number of players currently registered."""
-    conn = connect()
-    cursor = conn.cursor()
+    conn, cursor = connect()
     query = 'SELECT count(player_id) as num FROM tbl_players;'
     cursor.execute(query)
     rows = cursor.fetchone()
@@ -52,7 +58,10 @@ def countPlayers():
 
 def countGamesPerRound():
     """Returns the number of games per round."""
-    return int(math.ceil(countPlayers() / 2))
+    # Fun fact: Dividing 2 integers yields an integer, even if the
+    # result has a remainder. Must use at least 1 float in the division
+    # to properly yield the remainder.
+    return int(math.ceil(countPlayers() / 2.0))
 
 
 # Source for determining number of rounds:
@@ -108,19 +117,9 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
-    conn = connect()
-    cursor = conn.cursor()
-    query_get_wins = '''SELECT count(match_id)
-        FROM view_all_matches
-        WHERE winner_id=tbl_players.player_id'''
-    query_all_matches = '''SELECT count(match_id)
-        FROM view_all_matches
-        WHERE winner_id=tbl_players.player_id
-            OR loser_id=tbl_players.player_id'''
-    query = '''SELECT player_id as id, name,
-            (''' + query_get_wins + ''') as wins,
-            (''' + query_all_matches + ''') as matches
-        FROM tbl_players
+    conn, cursor = connect()
+    query = '''SELECT id, name, wins, matches
+        FROM view_player_standings
         ORDER BY wins desc;'''
     cursor.execute(query)
     results = cursor.fetchall()
@@ -137,22 +136,12 @@ def playerRecord(player_id):
     Returns:
       A tuple which contains (wins, losses)
     """
-    conn = connect()
-    cursor = conn.cursor()
-    query_get_wins = '''SELECT count(match_id)
-        FROM view_all_matches
-        WHERE winner_id=''' + str(player_id)
-    query_get_losses = '''SELECT count(match_id)
-        FROM view_all_matches
-        WHERE loser_id=''' + str(player_id)
-    query = '''SELECT
-            (''' + query_get_wins + ''') as wins,
-            (''' + query_get_losses + ''') as losses
-        FROM tbl_players
-        WHERE player_id=''' + str(player_id) + '''
+    conn, cursor = connect()
+    query = '''SELECT wins, losses FROM view_player_standings
+        WHERE id=''' + str(player_id) + '''
         ORDER BY wins desc;'''
     cursor.execute(query)
-    results = cursor.fetchone()
+    results = cursor.fetchone() if player_id is not -1 else (0, 0)
     conn.close()
     return results
 
@@ -164,6 +153,10 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+    # Guard against winner being the "Bye" player (-1 id value)
+    if winner is -1 and loser is not -1:
+        winner = loser
+        loser = -1
     runSimpleQuery('''INSERT INTO tbl_matches (winner_id, loser_id)
         values (%s, %s);''', (winner, loser,))
 
@@ -175,6 +168,10 @@ def swissPairings():
     appears exactly once in the pairings.  Each player is paired with another
     player with an equal or nearly-equal win record, that is, a player adjacent
     to him or her in the standings.
+
+    Note: If there is an odd number of players, the returned list of tuples
+    will contain a final tuple whose id2 and name2 values are -1 and "Bye",
+    respectively.
 
     Returns:
       A list of tuples, each of which contains (id1, name1, id2, name2)
@@ -188,9 +185,8 @@ def swissPairings():
     results = []
     for num in range(0, countGamesPerRound()):
         player_1 = ranked_players[counter]
-        player_2 = ranked_players[counter + 1]
+        player_2 = ranked_players[counter + 1] \
+            if (counter + 1) < len(ranked_players) else (-1, "Bye", 0, 0)
         results.append((player_1[0], player_1[1], player_2[0], player_2[1]))
         counter += 2
     return results
-
-
