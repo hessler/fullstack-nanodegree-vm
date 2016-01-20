@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ item.name }} | Catalog App{% endblock %}
+{% block description %}Information about {{ item.name }}.{% endblock %}
+{% block breadcrumbs_items %}
+    <li>
+        <a href="{{ url_for('category_info', category_id=item.category.id) }}" title="{{ item.category.name }}">{{ item.category.name }}</a>
+    </li>
+    <li>
+        <span class="show-for-sr">Current: </span> {{ item.name }}</em>
+    </li>
+{% endblock %}
+{% block content %}
+        <div class="columns">
+            {% include 'flash_messages.html' %}
+        </div>
+        <div class="columns medium-3">
+            {% include 'category_list.html' %}
+        </div>
+        <div class="columns medium-9">
+            <h1>{{ item.name }}</h1>
+            <p>{{ item.description }}</p>
+            {% if user.id == creator.id %}
+            <div class="button-lineup round">
+                <a href="{{ url_for('edit_category_item', item_id=item.id) }}" title="Edit" class="button small text-larger"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="{{ url_for('delete_category_item', item_id=item.id) }}" title="Delete" class="button small text-larger"><i class="fa fa-trash"></i> Delete</a>
+            </div>
+            {% endif %}
+        </div>
+{% endblock %}

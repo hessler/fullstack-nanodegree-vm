@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Edit Category | Catalog App{% endblock %}
+{% block description %}Use this simple form to edit an existing category.{% endblock %}
+{% block breadcrumbs_items %}
+    <li>
+        <span class="show-for-sr">Current: </span> Edit Category
+    </li>
+{% endblock %}
+{% block content %}
+        <div class="columns">
+            {% include 'flash_messages.html' %}
+        </div>
+        <form method="post" name="new_category">
+            <input type="hidden" name="user_id" value="{{ user.id }}"/>
+            <div class="columns medium-12">
+                <h1>Edit Category</h1>
+            </div>
+            <div class="columns medium-8 end">
+                <label for="name">Name:</label>
+                <input type="text" name="name" value="{{ category.name }}" required="required"/>
+                <div class="button-lineup round">
+                    <a href="{{ url_for('category_info', category_id=category.id) }}" title="Cancel" class="button small secondary"><i class="fa fa-ban"></i>Cancel</a>
+                    <button type="submit" title="Update Category" class="button small primary"><i class="fa fa-refresh"></i> Update</button>
+                </div>
+            </div>
+        </form>
+{% endblock %}

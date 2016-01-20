@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Log Out | Catalog App{% endblock %}
+{% block description %}{% endblock %}
+{% block breadcrumbs_items %}{% endblock %}
+{% block content %}
+        <div class="columns">
+            <h1>Log Out</h1>
+            {% include 'flash_messages.html' %}
+            <p>Are you sure you want to log out?</p>
+            <div class="button-lineup round">
+                <a href="#" title="Cancel" class="button small secondary">Cancel</a>
+                <a href="#" title="Yes" class="button small">Yes</a>
+            </div>
+        </div>
+{% endblock %}

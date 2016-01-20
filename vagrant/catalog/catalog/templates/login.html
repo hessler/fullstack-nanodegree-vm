@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Log In | Catalog App{% endblock %}
+{% block description %}{% endblock %}
+{% block breadcrumbs_items %}{% endblock %}
+{% block head_tags %}
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+{% endblock %}
+
+{% block first_body_block %}
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1656414347966082',
+      cookie     : true,  // enable cookies to allow server to access session
+      xfbml      : true,  // parse social plugins on the page
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+{% endblock %}
+
+{% block content %}
+        <div class="columns">
+            <h1 id="pageHeadline">Log In</h1>
+            <div id="result" class="callout hide"></div>
+            <div id="loginSpinner" class="hide spinner"><i class="fa fa-spinner fa-pulse"></i></div>
+            <div id="socialSigninButtons" class="button-lineup">
+                <p>Select one of the social providers below to log in.</p>
+                <div id="signinButtonGoogle">
+            		<span class="g-signin"
+            		    data-scope="openid email"
+            		    data-clientid="928605275967-vvnrvvdo2g4a92gk1deakgrg2i125nrs.apps.googleusercontent.com"
+            		    data-redirecturi="postmessage"
+            		    data-accesstype="offline"
+            		    data-cookiepolicy="single_host_origin"
+            		    data-callback="googleSignInCallback"
+            		    data-approvalprompt="force">
+            		</span>
+            	</div>
+                <div id="signinButtonFacebook">
+                    <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
+                        <a href="javascript:sendTokenToServer()">Login with Facebook</a>
+                    </fb:login-button>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block end_content %}
+<script type="text/javascript">
+function showPageHeadline(show) {
+    (show === false) ? $('#pageHeadline').hide() : $('#pageHeadline').show();
+}
+
+function showSpinner(show) {
+    if (show === false) {
+        $('#loginSpinner').removeClass('show').addClass('hide');
+    } else {
+        $('#loginSpinner').removeClass('hide').addClass('show');
+    }
+}
+
+function showFeedback(feedbackType, feedbackContent) {
+    showSpinner(false);
+    if (feedbackType === 'error') {
+        $('#result').html(feedbackContent).removeClass('hide success').addClass('show alert');
+        $('#socialSigninButtons').show();
+    } else {
+        $('#result').html(feedbackContent).removeClass('hide alert').addClass('show success');
+    }
+}
+
+// Query param logic from: http://stackoverflow.com/a/901144/1914233
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function googleSignInCallback(authResult) {
+    if (authResult['code']) {
+        $('#socialSigninButtons').hide();
+        showSpinner();
+        $.ajax({
+            type: 'POST',
+            url: '/gconnect?state={{STATE}}',
+            processData: false,
+            contentType: 'application/octet-stream; charset=utf-8',
+            data: authResult['code'],
+            complete: function(requestObject, textStatus) {
+                if (requestObject['status'] >= 200 && requestObject['status'] < 300) {
+                    var redirectURL = getParameterByName('redirect_url');
+                    if (redirectURL !== '') {
+                        window.location.href = redirectURL;
+                    } else {
+                        window.location.href = "/catalog";
+                    }
+                } else {
+                    showFeedback('error', requestObject['responseText']);
+                    showPageHeadline();
+                }
+            }
+        });
+    }
+}
+
+function sendTokenToServer() {
+    var accessToken = FB.getAuthResponse()['accessToken'];
+    FB.api('/me', function(response) {
+        $('#socialSigninButtons').hide();
+        showSpinner();
+        $.ajax({
+            type: 'POST',
+            url: '/fbconnect?state={{STATE}}',
+            processData: false,
+            data: accessToken,
+            contentType: 'application/octet-stream; charset=utf-8',
+            complete: function(requestObject, textStatus) {
+                if (requestObject['status'] >= 200 && requestObject['status'] < 300) {
+                    var redirectURL = getParameterByName('redirect_url');
+                    if (redirectURL !== '') {
+                        window.location.href = redirectURL;
+                    } else {
+                        window.location.href = "/catalog";
+                    }
+                } else {
+                    showFeedback('error', requestObject['responseText']);
+                    showPageHeadline();
+                }
+            }
+        })
+    })
+}
+</script>
+{% endblock %}

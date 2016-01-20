@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Catalog App | A Python/Flask Project for Udacity's Full Stack Web Developer Nanodegree program.{% endblock %}
+{% block description %}A list of all categories and most recent category items.{% endblock %}
+{% block content %}
+        <div class="columns">
+            {% include 'flash_messages.html' %}
+        </div>
+        <div class="columns medium-3">
+            {% include 'category_list.html' %}
+        </div>
+        <div class="columns medium-9">
+            <h1>Latest Items</h1>
+            <ul>
+                {% for item in latest_items %}
+                <li><a href="{{ url_for('category_item_info', item_id=item.id) }}" title="{{ item.name }}">{{ item.name }} ({{ item.category.name }})</a></li>
+                {% endfor %}
+            </ul>
+            {% if user %}
+            <div class="button-lineup round">
+                <a href="{{ url_for('new_category_item') }}" title="Add New Item" class="button small primary"><i class="fa fa-plus"></i> Add Item</a>
+            </div>
+            {% endif %}
+        </div>
+{% endblock %}

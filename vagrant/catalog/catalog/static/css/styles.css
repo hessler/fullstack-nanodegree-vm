@@ -1,0 +1,204 @@
+.top-bar .menu-text {
+    font-size: 1.5rem;
+}
+.top-bar-right .menu-text {
+    padding-top: 1.25rem;
+}
+.top-bar .logo {
+    font-size: 2.25rem;
+}
+.top-bar .top-bar-left .menu li a {
+    padding-left: 0;
+    padding-right: 0;
+}
+.top-bar .top-bar-left .menu a,
+.top-bar .top-bar-left .menu a:link,
+.top-bar .top-bar-left .menu a:visited,
+.top-bar .top-bar-left .menu a:hover,
+.top-bar .top-bar-left .menu a:active {
+    color: #2c2c2c;
+}
+.top-bar .menu li a.button {
+    color: white;
+    font-weight: bold;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 2rem 2rem 2rem 2rem;
+    -moz-border-radius: 2rem 2rem 2rem 2rem;
+    -webkit-border-radius: 2rem 2rem 2rem 2rem;
+}
+.top-bar .menu li a.button i.login {
+    padding-right: 0.25rem;
+}
+.top-bar .menu li a.button i.logout {
+    padding-left: 0.3875rem;
+}
+.top-bar .breadcrumbs {
+    border-top: 1px solid #ccc;
+    margin: 0.25rem 0.7rem;
+    padding: 0.5rem 0.7rem 0 0.25rem;
+}
+
+.spinner {
+    color: #ababab;
+    font-size: 3rem;
+}
+.login-picture {
+    height:100px;
+    width:100px;
+    border-radius:50px;
+    -webkit-border-radius:50px;
+    -moz-border-radius:50px;
+}
+.login-picture img {
+}
+
+.profile-info {
+    display: inline-block;
+    position: relative;
+    top: 0.75rem;
+}
+.profile-pic {
+    display: inline-block;
+    height: 3rem;
+    overflow: hidden;
+    width: 3rem;
+}
+.profile-pic img {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    height: 100%;
+    max-width: 100%;
+    vertical-align: inherit;
+    width: 100%;
+    border-radius: 4rem 4rem 4rem 4rem;
+    -moz-border-radius: 4rem 4rem 4rem 4rem;
+    -webkit-border-radius: 4rem 4rem 4rem 4rem;
+}
+.profile-name {
+    font-size: 1rem;
+}
+
+h2 .button {
+    margin: 0 0.75rem 0.5rem 0.75rem;
+    font-weight: bold;
+    border-radius: 2rem 2rem 2rem 2rem;
+    -moz-border-radius: 2rem 2rem 2rem 2rem;
+    -webkit-border-radius: 2rem 2rem 2rem 2rem;
+}
+h2 {
+    font-weight: 200;
+    margin-bottom: 1rem;
+}
+h4 {
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+form label {
+    font-weight: 500;
+}
+
+.flash-table {
+    font-size: 1.5rem;
+}
+.flash-table thead,
+.flash-table tbody,
+.flash-table tfoot {
+    background-color: transparent;
+    border: none;
+}
+.flash-table td {
+    padding: 0.5rem;
+}
+.flash-table .profile-pic {
+    display: block;
+    height: 4rem;
+    width: 4rem;
+}
+
+.category-panel-item-list {
+    list-style: none;
+    margin: 0 0 0.75rem 0;
+}
+.category-panel-item-list li {
+    list-style: none;
+}
+.accordion-item .button,
+.accordion-item a.button,
+.accordion-item button.button {
+    margin-bottom: 0;
+}
+.accordion-title {
+    font-size: 1rem;
+}
+.accordion-item.is-active > a.accordion-title {
+    
+}
+.accordion-item.is-selected > a.accordion-title {
+    background-color: #2199e8;
+    color: white;
+    font-weight: bold;
+}
+
+/*.puppy-card {
+    padding: 0.5rem;
+    text-align: left;
+}
+ul .puppy-card {
+    font-weight: bold;
+    text-align: center;
+}
+.puppy-card .contents {
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    padding: 1rem;
+}
+ul .puppy-card .contents {
+    padding: 0.5rem;
+}
+.puppy-card img {
+    float: left;
+    height: auto;
+    width: 100%;
+}
+ul .puppy-card img {
+    float: none;
+    height: 200px;
+    margin-bottom: 0.4125rem;
+    margin-right: 0;
+    width: auto;
+}
+.puppy-card .contents:after {
+    clear: both;
+    content: " ";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}*/
+.button-lineup a.button,
+.button-lineup .button {
+    font-weight: bold;
+    margin: 0 0.5rem 0.75rem 0;
+}
+.button-lineup a.button i,
+.button-lineup .button i {
+    margin-right: 0.25rem;
+}
+.button-lineup.round a.button,
+.button-lineup.round .button,
+a.button.round,
+.button.round {
+    border-radius: 2rem 2rem 2rem 2rem;
+    -moz-border-radius: 2rem 2rem 2rem 2rem;
+    -webkit-border-radius: 2rem 2rem 2rem 2rem;
+}
+.text-larger {
+    font-size: larger;
+}
+
+i.on-right {
+    margin-left: 0.25rem;
+}
+i.on-left {
+    margin-right: 0.25rem;
+}

@@ -1,0 +1,27 @@
+<ul id="categories_accordian_list" class="accordion" data-accordion data-slide-speed="0" data-allow-all-closed="true" role="tablist">
+    {% for cat in categories %}
+    <li class="accordion-item{% if item and item.category_id == cat.id or category and category.id == cat.id %} is-active is-selected{% endif %}">
+        <a href="#panel_{{ loop.index }}" role="tab" class="accordion-title" id="panel_{{ loop.index }}-heading" aria-controls="panel_{{ loop.index }}">{{ cat.name }}</a>
+        <div id="panel_{{ loop.index }}" class="accordion-content" role="tabpanel" data-tab-content aria-labelledby="panel_{{ loop.index }}-heading">
+            <ul class="category-panel-item-list">
+                {% for i in items[loop.index0] %}
+                <li>
+                    {% if item and item.id == i.id  %}
+                    <strong>{{ i.name }}</strong>
+                    {% else %}
+                    <a href="{{ url_for('category_item_info', item_id=i.id) }}" title="{{ i.name }}">{{ i.name }}</a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="{{ url_for('category_info', category_id=cat.id) }}" title="View {{ cat.name }}" class="button small round primary">View All {{ cat.name }} Items <i class="on-right fa fa-arrow-right"></i></a>
+        </div>
+    </li>
+    {#<li><a href="{{ url_for('category_info', category_id=cat.id) }}" title="{{ cat.name }}">{{ cat.name }}</a></li>#}
+    {% endfor %}
+</ul>
+{% if user %}
+<div class="button-lineup round">
+    <a href="{{ url_for('new_category') }}" title="Add New Category" class="button small primary"><i class="fa fa-plus"></i> Add Category</a>
+</div>
+{% endif %}

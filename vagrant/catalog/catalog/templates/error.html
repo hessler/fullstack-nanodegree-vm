@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Error | Catalog App{% endblock %}
+{% block description %}This isn't the page you're looking for.{% endblock %}
+{% block content %}
+        <div class="columns">
+            <h1>{% if not headline_text %}Uh-oh. Something isn't right.{% else %}{{ headline_text }}{% endif %}</h1>
+            {% include 'flash_messages.html' %}
+            <p>{% block error_text %}The page you requested can't be found.{% endblock %}</p>
+            <div class="button-lineup round">
+                <a href="{{ url_for('index') }}" title="Get Back on Track" class="button">Get Back on Track</a>
+            </div>
+        </div>
+{% endblock %}

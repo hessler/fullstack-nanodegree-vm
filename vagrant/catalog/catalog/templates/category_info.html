@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ category.name }} | Catalog App{% endblock %}
+{% block description %}Category items for {{ category.name }}.{% endblock %}
+{% block breadcrumbs_items %}
+    <li>
+        <span class="show-for-sr">Current: </span> {{ category.name }}
+    </li>
+{% endblock %}
+{% block content %}
+        <div class="columns">
+            {% include 'flash_messages.html' %}
+        </div>
+        <div class="columns medium-3">
+            {% include('category_list.html') %}
+        </div>
+        <div class="columns medium-9">
+            <h1>{{ category.name }} ({{ category_items|length }} item{% if category_items|length != 1 %}s{% endif %}) {% if creator %}
+            <div class="profile-info">
+            <div class="profile-pic">
+                <img src="{{ creator.picture }}" alt="{{ creator.name }}"/>
+            </div>
+            <span class="profile-name">
+                {{ creator.name }}
+            </span>
+            </div>
+            {% endif %}</h1>
+            
+            <ul>
+            {% for item in category_items %}
+                <li><a href="{{ url_for('category_item_info', item_id=item.id) }}" title="{{ item.name }}">{{ item.name }}</a></li>
+            {% endfor %}
+            </ul>
+            {% if user.id == creator.id %}
+            <div class="button-lineup round">
+                <form method="post" action="{{ url_for('new_category_item') }}">
+                    <input type="hidden" value="{{ category.id }}" name="category"/>
+                    <a href="{{ url_for('edit_category', category_id=category.id) }}" class="button small"><i class="fa fa-pencil"></i> Edit</a>
+                    <a href="{{ url_for('delete_category', category_id=category.id) }}" class="button small"><i class="fa fa-trash"></i> Delete</a>
+                    <button type="submit" title="Add New Item" class="button small primary"><i class="fa fa-plus"></i> Add</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+{% endblock %}
