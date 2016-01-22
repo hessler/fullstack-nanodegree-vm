@@ -10,10 +10,10 @@
         <div class="columns">
             {% include 'flash_messages.html' %}
         </div>
-        <div class="columns medium-3">
-            {% include('category_list.html') %}
+        <div class="columns medium-3 show-for-medium">
+            {% include('includes/category_list.html') %}
         </div>
-        <div class="columns medium-9">
+        <div class="columns medium-9 small-12">
             <h1>{{ category.name }} ({{ category_items|length }} item{% if category_items|length != 1 %}s{% endif %}) {% if creator %}
             <div class="profile-info">
             <div class="profile-pic">
@@ -25,7 +25,7 @@
             </div>
             {% endif %}</h1>
             
-            <ul>
+            <ul class="arrow-list">
             {% for item in category_items %}
                 <li><a href="{{ url_for('category_item_info', item_id=item.id) }}" title="{{ item.name }}">{{ item.name }}</a></li>
             {% endfor %}

@@ -1,0 +1,13 @@
+<div class="panel">
+    <div class="panel-title">Categories</div>
+    <ul class="menu vertical category-list">
+        {% for cat in categories %}
+        <li><a href="{{ url_for('category_info', category_id=cat.id) }}" title="{{ cat.name }}"{% if cat.id == category.id %} class="active"{% endif %}>{{ cat.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% if user %}
+    <div class="button-lineup round">
+        <a href="{{ url_for('new_category') }}" title="Add New Category" class="button small primary"><i class="fa fa-plus"></i> Add Category</a>
+    </div>
+    {% endif %}
+</div>

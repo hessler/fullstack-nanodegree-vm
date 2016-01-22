@@ -92,6 +92,7 @@ def category_defaults(mapper, configuration, target):
     """
     Function to set url_name attribute for Category object.
     """
+
     if not target.url_name:
         target.url_name = str_make_url_friendly(target)
 
@@ -100,10 +101,12 @@ def category_item_defaults(mapper, configuration, target):
     """
     Function to set url_name attribute for CategoryItem object.
     """
+
     if not target.url_name:
         target.url_name = str_make_url_friendly(target)
 
 
+# Convenience Functions
 def str_make_url_friendly(target):
     """
     Function to return lowercase value of specified string, with spaces

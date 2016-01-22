@@ -13,10 +13,10 @@
         <div class="columns">
             {% include 'flash_messages.html' %}
         </div>
-        <div class="columns medium-3">
-            {% include 'category_list.html' %}
+        <div class="columns medium-3 show-for-medium">
+            {% include 'includes/category_list.html' %}
         </div>
-        <div class="columns medium-9">
+        <div class="columns medium-9 small-12">
             <h1>{{ item.name }}</h1>
             <p>{{ item.description }}</p>
             {% if user.id == creator.id %}

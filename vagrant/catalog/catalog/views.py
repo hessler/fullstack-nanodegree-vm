@@ -111,6 +111,7 @@ def category_item_info(item_id):
 
     return render_template('category_item_info.html',
                            categories=db_get_all_objects_of_type(Category),
+                           category=category_item.category,
                            item=category_item,
                            items=db_get_all_items(),
                            creator=creator,

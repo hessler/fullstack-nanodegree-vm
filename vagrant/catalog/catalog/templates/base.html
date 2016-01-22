@@ -14,56 +14,81 @@
     
     {% block first_body_block %}{% endblock %}
     
-    <div class="top-bar">
-        <div class="row">
-            <div class="columns">
-                <div class="top-bar-left">
-                    <ul class="dropdown menu">
-                        <li class="menu-text"><a href="{{ url_for('index') }}" title="Catalog App Home"><i class="fa fa-folder-open logo"></i> Catalog App</a></li>
-                    </ul>
-                </div>
-                {% if request.path != '/login/' and request.path != '/logout/' %}
-                <div class="top-bar-right">
-                    <ul class="dropdown menu">
-                        <li class="menu-text">
-                            {% if 'username' not in session %}
-                            <a href="{{ url_for('login') }}" class="button small"><i class="fa fa-user login"></i> Log In</a>
-                            {% else %}
-                            <a href="{{ url_for('disconnect') }}" class="button small">Log Out <i class="fa fa-sign-out logout"></i></a>
+    <div class="off-canvas-wrapper">
+
+        <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+            <div id="off_canvas_menu_left" class="off-canvas position-left" data-off-canvas>
+                {% include('includes/category_list_side_menu.html') %}
+            </div>
+            
+            <div class="off-canvas-content" data-off-canvas-content>
+
+                <div class="top-bar fixed">
+                    <div class="row">
+                        <div class="columns">
+                            <div class="top-bar-left">
+                                <ul class="dropdown menu">
+                                    <li class="menu-text"><a href="{{ url_for('index') }}" title="Catalog App Home"><i class="fa fa-folder-open logo"></i> Catalog App</a></li>
+                                </ul>
+                            </div>
+                            {% if request.path != '/login/' and request.path != '/logout/' %}
+                            <div class="top-bar-right">
+                                <ul class="dropdown menu">
+                                    <li class="menu-text">
+                                        {% if 'username' not in session %}
+                                        <a href="{{ url_for('login') }}" class="button small"><i class="fa fa-user login"></i> Log In</a>
+                                        {% else %}
+                                        <a href="{{ url_for('disconnect') }}" class="button small">Log Out <i class="fa fa-sign-out logout"></i></a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
                             {% endif %}
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
+                    <div class="row show-for-small-only">
+                        <div class="columns categories-menu">
+                            <button type="button" class="" data-toggle="off_canvas_menu_left"><i class="fa fa-bars on-left"></i> View Categories</button>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if request.path != '/login/' and request.path != '/logout/' %}
+                <div class="breadcrumbs-wrapper">
+                    <div class="row">
+                        <div class="columns">
+                            {% block breadcrumbs %}
+                            <ul class="breadcrumbs">
+                                <li><a href="{{ url_for('index') }}" title="Home">Home</a></li>
+                                {% block breadcrumbs_items %}{% endblock %}
+                            </ul>
+                            {% endblock %}
+                        </div>
+                    </div>
                 </div>
                 {% endif %}
-            </div>
-        </div>
-        {% if request.path != '/login/' and request.path != '/logout/' %}
-        <div class="row">
-            <div class="columns">
-                {% block breadcrumbs %}
-                <ul class="breadcrumbs">
-                    <li><a href="{{ url_for('index') }}" title="Home">Home</a></li>
-                    {% block breadcrumbs_items %}{% endblock %}
-                </ul>
-                {% endblock %}
-            </div>
-        </div>
-        {% endif %}
-    </div>
-    
-    <div class="row">&nbsp;</div>
-    
-    <div class="row">
-        {% block content %}{% endblock %}
-    </div>
-    
-    <div class="row">&nbsp;</div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+                {# <div class="row">&nbsp;</div> #}
+
+                <div class="row content-wrapper">
+                    {% block content %}{% endblock %}
+                </div>
+
+                <div class="row">&nbsp;</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<script src="{{ url_for('static', filename='js/jquery-2.2.0.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
 <script type="text/javascript">
-    if ($("#categories_accordian_list")) {
-        var elem = new Foundation.Accordion($("#categories_accordian_list"));
+    var offCanvasMenuLeft;
+    if ($("#off_canvas_menu_left")) {
+        offCanvasMenuLeft = new Foundation.OffCanvas($("#off_canvas_menu_left"));
     }
 </script>
 {% block end_content %}{% endblock %}

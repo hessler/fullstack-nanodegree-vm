@@ -1,0 +1,6 @@
+<ul class="mobile-ofc menu vertical category-list">
+    <li class="menu-title">Categories</li>
+    {% for cat in categories %}
+    <li><a href="{{ url_for('category_info', category_id=cat.id) }}" title="{{ cat.name }}">{{ cat.name }}</a></li>
+    {% endfor %}
+</ul>

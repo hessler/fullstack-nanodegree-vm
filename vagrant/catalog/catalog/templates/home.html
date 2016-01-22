@@ -5,12 +5,12 @@
         <div class="columns">
             {% include 'flash_messages.html' %}
         </div>
-        <div class="columns medium-3">
-            {% include 'category_list.html' %}
+        <div class="columns medium-3 show-for-medium">
+            {% include 'includes/category_list.html' %}
         </div>
-        <div class="columns medium-9">
+        <div class="columns medium-9 small-12">
             <h1>Latest Items</h1>
-            <ul>
+            <ul class="arrow-list">
                 {% for item in latest_items %}
                 <li><a href="{{ url_for('category_item_info', item_id=item.id) }}" title="{{ item.name }}">{{ item.name }} ({{ item.category.name }})</a></li>
                 {% endfor %}
