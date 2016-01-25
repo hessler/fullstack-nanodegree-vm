@@ -3,11 +3,13 @@
 {% block description %}This isn't the page you're looking for.{% endblock %}
 {% block content %}
         <div class="columns">
-            <h1>{% if not headline_text %}Uh-oh. Something isn't right.{% else %}{{ headline_text }}{% endif %}</h1>
             {% include 'flash_messages.html' %}
-            <p>{% block error_text %}The page you requested can't be found.{% endblock %}</p>
+        </div>
+        <div class="columns">
+            <h1>{% if not headline_text %}Uh-oh. Something isn't right.{% else %}{{ headline_text }}{% endif %}</h1>
+            <p>{% if not error_text %}The page you requested can't be found.{% else %}{{ error_text }}{% endif %}</p>
             <div class="button-lineup round">
-                <a href="{{ url_for('index') }}" title="Get Back on Track" class="button">Get Back on Track</a>
+                <a href="{{ url_for('index') }}" title="Home" class="button"><i class="fa fa-home on-left"></i> Home</a>
             </div>
         </div>
 {% endblock %}

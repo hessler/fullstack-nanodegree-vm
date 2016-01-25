@@ -1,7 +1,12 @@
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for message in messages %}
-        <div class="success callout"><p>{{ message }}</p></div>
+        <div class="success callout" data-closable>
+            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <p>{{ message }}</p>
+        </div>
         {% endfor %}
     {% endif %}
 {% endwith %}

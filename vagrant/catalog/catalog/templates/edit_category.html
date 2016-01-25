@@ -3,7 +3,10 @@
 {% block description %}Use this simple form to edit an existing category.{% endblock %}
 {% block breadcrumbs_items %}
     <li>
-        <span class="show-for-sr">Current: </span> Edit Category
+        <a href="{{ url_for('category_info', category_id=category.id) }}" title="{{ category.name }}">{{ category.name }}</a>
+    </li>
+    <li>
+        <span class="show-for-sr">Current: </span> Edit
     </li>
 {% endblock %}
 {% block content %}
@@ -13,9 +16,9 @@
         <form method="post" name="new_category">
             <input type="hidden" name="user_id" value="{{ user.id }}"/>
             <div class="columns medium-12">
-                <h1>Edit Category</h1>
+                <h1>{{ category.name }} <span class="secondary">(Editing)</span></h1>
             </div>
-            <div class="columns medium-8 end">
+            <div class="columns medium-8 small-12 end">
                 <label for="name">Name:</label>
                 <input type="text" name="name" value="{{ category.name }}" required="required"/>
                 <div class="button-lineup round">

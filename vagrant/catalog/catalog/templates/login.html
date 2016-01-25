@@ -6,27 +6,6 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 {% endblock %}
 
-{% block first_body_block %}
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1656414347966082',
-      cookie     : true,  // enable cookies to allow server to access session
-      xfbml      : true,  // parse social plugins on the page
-      version    : 'v2.5'
-    });
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
-{% endblock %}
-
 {% block content %}
         <div class="columns">
             <h1 id="pageHeadline">Log In</h1>
@@ -56,6 +35,24 @@
 
 {% block end_content %}
 <script type="text/javascript">
+// Facebook Functions
+window.fbAsyncInit = function() {
+    FB.init({
+        appId: '1656414347966082',
+        cookie: true, // enable cookies to allow server to access session
+        xfbml: true,  // parse social plugins on the page
+        version: 'v2.5'
+    });
+};
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+// Page-specific Functionality
 function showPageHeadline(show) {
     (show === false) ? $('#pageHeadline').hide() : $('#pageHeadline').show();
 }

@@ -1,10 +1,30 @@
-# rdb-fullstack
-Common code for the Relational Databases and Full Stack Fundamentals courses.
+# Udacity Full Stack Nanodegree Projects
+This repository holds project code for various projects associated with the Udacity Full Stack Nanodegree.
 
-# Tournament Results Project
+## Item Catalog Project
+The code for the Item Catalog Project can be found in the `vagrant/catalog` directory.
+
+### Project Setup and Testing
+To set up and test the Tournament Results Project, you will need to do the following:
+
+1. Clone the repository: `git clone https://github.com/hessler/fullstack-nanodegree-vm.git`
+2. Navigate to the cloned repository directory. For example, if you cloned to your Desktop on a Mac: `cd ~/Desktop/fullstack-nanodegree-vm/`.
+3. Navigate to the `catalog` directory: `cd vagrant/catalog`
+4. Launch the Vagrant Virtual Machine: `vagrant up`
+5. Once the VM is powered on, log in to it: `vagrant ssh`
+6. Navigate to the `catalog` directory: `cd /vagrant/catalog`
+7. Launch the local server, which will create and populate a pre-fab database for the project: `python runserver.py`
+8. Open the web browser of your choice and navigate to the Item Catalog site at: `http://localhost:5000/catalog/`
+9. Play around with and test the project site to your heart's content.
+10. Once you are done testing, log out of the VM: `exit`
+11. Turn off the VM: `vagrant halt`
+
+---
+
+## Tournament Results Project
 The code for the Tournament Results Project can be found in the `vagrant/tournament` directory.
 
-## Project Setup and Testing
+### Project Setup and Testing
 To set up and test the Tournament Results Project, you will need to do the following:
 
 1. Clone the repository: `git clone https://github.com/hessler/fullstack-nanodegree-vm.git`
@@ -22,7 +42,7 @@ To set up and test the Tournament Results Project, you will need to do the follo
 9. Once you are done testing, log out of the VM: `exit`
 10. Turn off the VM: `vagrant halt`
 
-## Testing Output
+### Testing Output
 If all of the tests pass successfully, you should see the following output. Note that after items 1-8 and the "Success!" message, there is additional output that is the result of an additional function in the `tournament_test.py` file, which creates and simulates a tournament of 16 players. The output from this function includes the number of players, number of rounds, round-by-round match-ups, and the final standings.
 
 ```

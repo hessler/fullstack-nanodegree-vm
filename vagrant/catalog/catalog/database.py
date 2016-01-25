@@ -30,20 +30,20 @@ def init_db():
     Base.metadata.create_all(bind=engine)
 
     # Query all items. If none exist, we know we need to populate the DB.
-    if len(db_get_all_objects_of_type(Category)) < 1:
+    if len(get_all_objects_of_type(Category)) < 1:
         from database_setup import populate_database
         populate_database(db_session)
 
-    all_users = db_get_all_objects_of_type(User)
-    all_categories = db_get_all_objects_of_type(Category)
-    all_items = db_get_all_objects_of_type(CategoryItem)
+    all_users = get_all_objects_of_type(User)
+    all_categories = get_all_objects_of_type(Category)
+    all_items = get_all_objects_of_type(CategoryItem)
     print "Database Info:"
     print "  - {} Users".format(len(all_users))
     print "  - {} Categories".format(len(all_categories))
     print "  - {} Category Items".format(len(all_items))
 
 
-def db_get_last_x_items_of_type(num_items, Class):
+def get_last_x_items_of_type(num_items, Class):
     """
     Convenience function to return the last X number
     of items for specified object type.
@@ -51,14 +51,14 @@ def db_get_last_x_items_of_type(num_items, Class):
     return db_session.query(Class).order_by(Class.id.desc()).limit(num_items)
 
 
-def db_get_all_objects_of_type(Class):
+def get_all_objects_of_type(Class):
     """
     Convenience function to return result of query for specified object type.
     """
     return db_session.query(Class).all()
 
 
-def db_get_all_items_for_category_id(category_id):
+def get_all_items_for_category_id(category_id):
     """
     Convenience function to return CategoryItem objects of specified category.
     """
@@ -66,15 +66,15 @@ def db_get_all_items_for_category_id(category_id):
     return db_session.query(CategoryItem).filter_by(category_id=category_id).all()
 
 
-def db_get_all_items():
+def get_all_items():
     """
     Convenience function to return a list of lists for all items.
     """
     from catalog.models import Category
-    categories = db_get_all_objects_of_type(Category)
+    categories = get_all_objects_of_type(Category)
     items = []
     for category in categories:
-        items.append(db_get_all_items_for_category_id(category.id))
+        items.append(get_all_items_for_category_id(category.id))
     return items
 
 

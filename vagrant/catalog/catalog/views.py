@@ -4,7 +4,6 @@ This module provides views for the Item Catalog App project.
 
 #pylint: disable=import-error,no-member,unused-variable
 
-from flask import Markup #, Flask
 from flask import flash, jsonify, make_response
 from flask import redirect, render_template, request, url_for
 
@@ -12,8 +11,8 @@ from flask import session as login_session
 
 from catalog import app
 from catalog.models import Category, CategoryItem, User
-from catalog.database import db_session #, get_or_create
-from catalog.database import db_get_all_objects_of_type, db_get_last_x_items_of_type, db_get_all_items
+from catalog.database import db_session
+from catalog.database import get_all_objects_of_type, get_last_x_items_of_type, get_all_items
 
 from oauth2client.client import flow_from_clientsecrets, OAuth2Credentials
 from oauth2client.client import FlowExchangeError
@@ -35,22 +34,33 @@ APPLICATION_NAME = 'Catalog App'
 #-----------------------------------------------------------------------
 
 # Main page
-@app.route('/')
-@app.route('/catalog/')
+@app.route('/', methods=['GET'])
+@app.route('/catalog/', methods=['GET'])
 def index():
     """
     Function to return a page listing all categories and most recent items.
     """
 
-    categories = db_get_all_objects_of_type(Category)
-    latest_items = db_get_last_x_items_of_type(5, CategoryItem)
+    show_all = True if request.method == 'GET' and\
+        str(request.args.get('show_all', False)).lower() == 'true'\
+        else False
+    categories = get_all_objects_of_type(Category)
+    if not show_all:
+        latest_items = get_last_x_items_of_type(10, CategoryItem)
+        num_items = latest_items.count()
+    else:
+        latest_items = get_all_objects_of_type(CategoryItem)
+        latest_items.reverse()
+        num_items = len(latest_items)
     user = get_user()
-    items = db_get_all_items()
+    items = get_all_items()
 
     return render_template('home.html',
+                           show_all=show_all,
                            categories=categories,
                            items=items,
                            latest_items=latest_items,
+                           num_items=num_items,
                            user=user)
 
 # Category Information
@@ -79,11 +89,11 @@ def category_info(category_id):
     user = get_user()
 
     return render_template('category_info.html',
-                           categories=db_get_all_objects_of_type(Category),
+                           categories=get_all_objects_of_type(Category),
                            category=category,
                            category_items=category_items,
                            creator=creator,
-                           items=db_get_all_items(),
+                           items=get_all_items(),
                            user=user)
 
 # Category Item
@@ -97,7 +107,7 @@ def category_item_info(item_id):
     """
 
     # Retrieve CategoryItem object for template rendering.
-    # If nott found, render error template.
+    # If not found, render error template.
     category_item = db_session.query(CategoryItem)\
         .filter_by(id=item_id)\
         .first()
@@ -106,18 +116,22 @@ def category_item_info(item_id):
                                headline_text='Item Not Found',
                                error_text='The specified item was not found.')
 
-    creator = category_item.category.user
+    creator = category_item.user
     user = get_user()
 
     return render_template('category_item_info.html',
-                           categories=db_get_all_objects_of_type(Category),
+                           categories=get_all_objects_of_type(Category),
                            category=category_item.category,
                            item=category_item,
-                           items=db_get_all_items(),
+                           items=get_all_items(),
                            creator=creator,
                            user=user)
 
 # New Category
+#
+# Note: Though not overtly specified as necessary in the project,
+# I put logic for adding a new category to offer the ability for
+# registered users to add their own categories.
 @app.route('/catalog/category/new/', methods=['GET', 'POST'])
 def new_category():
     """
@@ -147,14 +161,19 @@ def new_category_item():
     """
 
     user = get_user()
-    categories = db_get_all_objects_of_type(Category)
+    categories = get_all_objects_of_type(Category)
+    category = None
     if not user:
         return redirect(url_for('login_with_redirect',
                                 redirect_url=urllib.quote_plus('/catalog/item/new/')))
     if request.method == 'POST':
         if request.form.get('name', '') == '' and request.form.get('category', '') != '':
+            category = db_session.query(Category)\
+                .filter_by(id=request.form.get('category'))\
+                .first()
             return render_template('new_category_item.html',
                                    user=user,
+                                   category=category,
                                    categories=categories,
                                    request=request)
         new_item = CategoryItem(name=request.form['name'],
@@ -168,10 +187,15 @@ def new_category_item():
     else:
         return render_template('new_category_item.html',
                                user=user,
+                               category=category,
                                categories=categories)
 
-# Edit Category Item
-@app.route('/catalog/<int:category_id>/edit/', methods=['GET', 'POST'])
+# Edit Category
+#
+# Note: Though not overtly specified as necessary in the project,
+# I put logic for editing a category, where users can edit their
+# own categories that they have created.
+@app.route('/catalog/category/<int:category_id>/edit/', methods=['GET', 'POST'])
 def edit_category(category_id):
     """
     Function to return a page to edit a category.
@@ -181,7 +205,7 @@ def edit_category(category_id):
     """
 
     user = get_user()
-    categories = db_get_all_objects_of_type(Category)
+    categories = get_all_objects_of_type(Category)
     edited_item = db_session.query(Category)\
         .filter_by(id=category_id)\
         .first()
@@ -190,6 +214,13 @@ def edit_category(category_id):
                                headline_text='Category Not Found',
                                error_text='The specified category was not found.')
 
+    # Make sure the user is the creator of the category.
+    if user.id != edited_item.user.id:
+        return render_template('error.html',
+                               headline_text='Access Denied',
+                               error_text='Sorry, but you are not the creator of '\
+                               'the category "{}". As such, you are not authorized '\
+                               'to make edits to it.'.format(edited_item.name))
 
     if request.method == 'POST':
         edited_item.name = request.form['name']
@@ -215,7 +246,7 @@ def edit_category_item(item_id):
     """
 
     user = get_user()
-    categories = db_get_all_objects_of_type(Category)
+    categories = get_all_objects_of_type(Category)
     edited_item = db_session.query(CategoryItem)\
         .filter_by(id=item_id)\
         .first()
@@ -223,6 +254,14 @@ def edit_category_item(item_id):
         return render_template('error.html',
                                headline_text='Item Not Found',
                                error_text='The specified item was not found.')
+
+    # Make sure the user is the creator of the item.
+    if user.id != edited_item.user.id:
+        return render_template('error.html',
+                               headline_text='Access Denied',
+                               error_text='Sorry, but you are not the creator of '\
+                               'the item "{}". As such, you are not authorized '\
+                               'to make edits to it.'.format(edited_item.name))
 
 
     if request.method == 'POST':
@@ -244,6 +283,10 @@ def edit_category_item(item_id):
                                categories=categories)
 
 # Delete Category
+#
+# Note: Though not overtly specified as necessary in the project,
+# I put logic for deleting a category, where users can delete
+# categories that they have created.
 @app.route('/catalog/category/<int:category_id>/delete/', methods=['GET', 'POST'])
 def delete_category(category_id):
     """
@@ -253,10 +296,20 @@ def delete_category(category_id):
         category_id: ID of the category to delete.
     """
 
+    user = get_user()
     category = db_session.query(Category)\
         .filter_by(id=category_id).first()
     if not category:
         return redirect(url_for('index'))
+
+    # Make sure the user is the creator of the category.
+    if user.id != category.user.id:
+        return render_template('error.html',
+                               headline_text='Access Denied',
+                               error_text='Sorry, but you are not the creator of '\
+                               'the category "{}". As such, you are not authorized '\
+                               'to delete it.'.format(category.name))
+
     if request.method == 'POST':
         # Get and delete all items associated with this category.
         items = db_session.query(CategoryItem)\
@@ -284,6 +337,7 @@ def delete_category_item(item_id):
         item_id: ID of the category item to delete.
     """
 
+    user = get_user()
     item = db_session.query(CategoryItem)\
         .filter_by(id=item_id)\
         .first()
@@ -296,7 +350,14 @@ def delete_category_item(item_id):
     else:
         category_id = item.category.id
 
-    #item_category = item.category
+    # Make sure the user is the creator of the item.
+    if user.id != item.user.id:
+        return render_template('error.html',
+                               headline_text='Access Denied',
+                               error_text='Sorry, but you are not the creator of '\
+                               'the item "{}". As such, you are not authorized '\
+                               'to delete it.'.format(item.name))
+
     if request.method == 'POST':
         db_session.delete(item)
         db_session.commit()
@@ -420,7 +481,7 @@ def gconnect():
     login_session['user_id'] = user_id
 
     # Create flash message with user-specific info included
-    flash(get_user_logged_in_markup())
+    flash("Logged in as {}".format(login_session['username']))
     return ''
 
 # Facebook
@@ -475,22 +536,13 @@ def fbconnect():
     login_session['user_id'] = user_id
 
     # Create flash message with user-specific info included
-    flash(get_user_logged_in_markup())
+    flash("Logged in as {}".format(login_session['username']))
     return ''
 
 
 #-----------------------------------------------------------------------
 # Logout/Disconnect Functionality
 #-----------------------------------------------------------------------
-
-# Log Out
-#@app.route('/logout/')
-#def logout():
-#    """
-#    Function to return a page for user logout.
-#    """
-#
-#    return render_template('logout.html')
 
 # Google
 @app.route('/gdisconnect')
@@ -626,17 +678,6 @@ def create_user():
         .one()
     return user.id
 
-def get_user_logged_in_markup():
-    """
-    Function to return Markup for user login.
-    """
-
-    return Markup("""<table class="flash-table">
-        <tr><td><span class="profile-pic">
-        <img src="{0}" alt="{1}"/></span>
-        </td><td>Logged in as {1}</td></tr></table>"""\
-        .format(login_session['picture'], login_session['username']))
-
 
 #-----------------------------------------------------------------------
 # JSON Endpoints
@@ -648,7 +689,7 @@ def catalog_json():
     Function to return JSON of all categories and items.
     """
 
-    categories = db_get_all_objects_of_type(Category)
+    categories = get_all_objects_of_type(Category)
     categories_list = []
     for cat in categories:
         categories_list.append(cat.serialize)
@@ -663,7 +704,7 @@ def categories_json():
     Function to return JSON of all categories.
     """
 
-    categories = db_get_all_objects_of_type(Category)
+    categories = get_all_objects_of_type(Category)
     return jsonify(categories=[cat.serialize for cat in categories])
 
 @app.route('/catalog/category/<int:category_id>/json/')

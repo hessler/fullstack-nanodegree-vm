@@ -1,6 +1,9 @@
 /*--------------------------------------------------------------------
   Global HTML Elements
 --------------------------------------------------------------------*/
+body {
+    background: rgba(34, 34, 34, 1.0);
+}
 ul.arrow-list li {
     list-style: none;
 }
@@ -16,6 +19,9 @@ ul.arrow-list li:before {
     position: relative;
     text-decoration: inherit;
 }
+h1 {
+    border-bottom: 1px dotted rgba(204, 204, 204, 1.0);
+}
 h2 {
     font-weight: 200;
     margin-bottom: 1rem;
@@ -27,15 +33,51 @@ h4 {
 form label {
     font-weight: 500;
 }
+*:focus {
+    outline: none;
+}
+
+
+/*--------------------------------------------------------------------
+  Byline & Profile
+--------------------------------------------------------------------*/
+.byline {
+    border-bottom: 1px dotted rgba(0, 0, 0, 0.25);
+    border-top: 1px dotted rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.875rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+    padding: 0.3125rem 0.25rem 0.25rem;
+}
+.byline img {
+    box-shadow: 0 0 0.0625rem rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 0 0 0.0625rem rgba(0, 0, 0, 0.25);
+    display: inline-block;
+    height: 1.5rem;
+    margin: -0.25rem 0.25rem 0 0;
+    width: 1.5rem;
+}
 
 
 /*--------------------------------------------------------------------
   Buttons & Button Containers
 --------------------------------------------------------------------*/
+.button-lineup.home-lineup {
+    border-bottom: 1px dotted rgba(204, 204, 204, 1.0);
+    margin-bottom: 1rem;
+}
+.home-lineup {
+    font-style: normal;
+    /*padding: 0.5rem;*/
+}
+.button-lineup .button {
+    margin-bottom: 0.5rem;
+}
 .button-lineup a.button,
 .button-lineup .button {
     font-weight: bold;
-    margin: 0 0.5rem 0.75rem 0;
+    margin: 0 0.5rem 0.5rem 0;
 }
 .button-lineup a.button i,
 .button-lineup .button i {
@@ -59,10 +101,10 @@ h2 .button {
 
 
 /*--------------------------------------------------------------------
-  Off-Canvas Side Menu
+  Off-Canvas Wrapper
 --------------------------------------------------------------------*/
 .off-canvas-wrapper {
-    background: #2c2c2c;
+    background: rgba(34, 34, 34, 1.0);
 }
 
 
@@ -70,7 +112,7 @@ h2 .button {
   Off-Canvas Side Menu
 --------------------------------------------------------------------*/
 .off-canvas {
-    background: #2c2c2c;
+    background: rgba(34, 34, 34, 1.0);
     color: white;
 }
 .mobile-ofc {
@@ -83,17 +125,32 @@ h2 .button {
     border-bottom: 1px solid rgba(255, 255, 255, 0.06125);
     border-top: 1px solid rgba(0, 0, 0, 0.25);
 }
-.mobile-ofc li:nth-child(2) {
-    /*border-top: none;*/
-}
 .mobile-ofc li.menu-title {
-    background: #121212;
+    background: rgba(18, 18, 18, 1.0);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1875);
     border-top: none;
-    /*box-shadow: 0 0 2px rgba(0, 0, 0, 0.9);*/
     font-size: 1rem;
     font-weight: bold;
     padding: 0.7rem 1rem;
+}
+.mobile-ofc li.menu-title a:before {
+    content: "";
+}
+.mobile-ofc li.menu-title .button {
+    margin: 0;
+    padding: 0.4375rem 0.5rem 0.4375rem 0.5625rem;
+    position: absolute;
+    right: 0.6875rem;
+    top: 0.6875rem;
+    
+    -moz-transition: none;
+    -o-transition: none;
+    -webkit-transition: none;
+    transition: none;
+}
+.mobile-ofc li.menu-title .button:hover {
+    border-left: 0;
+    padding-left: 0.5rem;
 }
 .mobile-ofc li a,
 .mobile-ofc li a:link,
@@ -104,28 +161,33 @@ h2 .button {
 }
 .mobile-ofc li a {
     padding-left: 1rem;
-    -moz-transition: padding-left .1625s ease-in;
-    -o-transition: padding-left .1625s ease-in;
-    -webkit-transition: padding-left .1625s ease-in;
-    transition: padding-left .1625s ease-in;
+    -moz-transition: padding-left 0.1625s ease-in;
+    -o-transition: padding-left 0.1625s ease-in;
+    -webkit-transition: padding-left 0.1625s ease-in;
+    transition: padding-left 0.1625s ease-in;
 }
 .mobile-ofc li a:hover {
     padding-left: 1.5rem;
 }
-.mobile-ofc li:focus,
-.mobile-ofc li a:focus {
-    outline: none;
-}
 
 
 /*--------------------------------------------------------------------
-  Main Canvas Content
+  Main Canvas Content & Container
 --------------------------------------------------------------------*/
 .off-canvas-content {
+    background: rgba(34, 34, 34, 1.0);
+    color: white;
+}
+.off-canvas-content.fixed {
     padding-top: 4.75rem;
 }
 .content-wrapper {
     padding: 1.5rem 0;
+}
+.container {
+    background: rgba(252, 252, 252, 1.0);
+    color: rgba(12, 12, 12, 1.0);
+    min-height: 26rem;
 }
 
 
@@ -133,7 +195,7 @@ h2 .button {
   Top Bar
 --------------------------------------------------------------------*/
 .top-bar {
-    border-bottom: 1px solid #cdcdcd;
+    border-bottom: 1px solid rgba(204, 204, 204, 1.0);
     width: 100%;
 }
 .top-bar.fixed {
@@ -148,13 +210,6 @@ h2 .button {
 .top-bar .menu-text {
     font-size: 1.5rem;
 }
-.top-bar-left .menu-text {
-    /*padding-left: 0;
-    padding-right: 0;*/
-}
-.top-bar-right .menu-text {
-    /*padding-top: 1.25rem;*/
-}
 .top-bar .logo {
     font-size: 2.25rem;
 }
@@ -167,7 +222,7 @@ h2 .button {
 .top-bar .top-bar-left .menu a:visited,
 .top-bar .top-bar-left .menu a:hover,
 .top-bar .top-bar-left .menu a:active {
-    color: #2c2c2c;
+    color: rgba(34, 34, 34, 1.0);
 }
 .top-bar .menu li a.button {
     color: white;
@@ -185,16 +240,17 @@ h2 .button {
     padding-left: 0.3875rem;
 }
 .top-bar .breadcrumbs {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid rgba(204, 204, 204, 1.0);
     margin: 0.25rem 0.7rem;
     padding: 0.5rem 0.7rem 0 0.25rem;
 }
 .top-bar .categories-menu {
-    background: #2c2c2c;
+    background: rgba(34, 34, 34, 1.0);
     color: white;
     font-size: 0.8125rem;
 }
 .top-bar .categories-menu button {
+    font-weight: bold;
     padding:  0.95rem 1rem 1rem;
     text-align: left;
     width: 100%;
@@ -207,11 +263,62 @@ h2 .button {
 .breadcrumbs-wrapper {
     background-color: rgba(33, 153, 232, 0.2);
     border-bottom: 1px solid rgba(33, 153, 232, 0.125);
-    /*box-shadow: inset 0 1px 0 rgba(0, 102, 178, 0.25);*/
     width: 100%;
 }
 .breadcrumbs {
     margin: 0.8125rem 0;
+}
+.breadcrumbs li:not(:last-child)::after {
+    color: rgba(164, 164, 164, 1);
+}
+
+
+/*--------------------------------------------------------------------
+  Footer
+--------------------------------------------------------------------*/
+.footer {
+    border-top: 1px solid black;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.125);
+    -webkit-box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.125);
+    color: rgba(142, 142, 142, 1.0);
+    padding: 1rem 0;
+    text-align: center;
+}
+.footer p {
+    font-size: 0.875rem;
+    margin: 0;
+}
+.footer ul {
+    color: rgba(142, 142, 142, 1.0);
+    font-size: 1.5rem;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.footer li {
+    display: inline;
+    list-style-type: none;
+    padding: 0.125rem;
+}
+.footer a {
+    color: rgba(142, 142, 142, 1.0);
+    -moz-transition: color 0.1625s ease-in;
+    -o-transition: color 0.1625s ease-in;
+    -webkit-transition: color 0.1625s ease-in;
+    transition: color 0.1625s ease-in;
+}
+.footer a:hover {
+    color: white;
+}
+
+
+/*--------------------------------------------------------------------
+  Category Info & Home Info
+--------------------------------------------------------------------*/
+.category-info h1,
+.home-info h1 {
+    border-bottom: none;
+    margin-bottom: 0;
 }
 
 
@@ -228,6 +335,35 @@ h2 .button {
     right: 1rem;
     top: 50%;
 }
+.category-list li a {
+    border-left: 0;
+    padding-left: 1rem;
+    -moz-transition: /*padding-left 0.1625s ease-in, */border-left 0.1625s ease-in;
+    -o-transition: /*padding-left 0.1625s ease-in, */border-left 0.1625s ease-in;
+    -webkit-transition: /*padding-left 0.1625s ease-in, */border-left 0.1625s ease-in;
+    transition: /*padding-left 0.1625s ease-in, */border-left 0.1625s ease-in;
+}
+.category-list li a:hover {
+    border-left: 0.5rem solid rgba(33, 153, 232, 1);
+    padding-left: 1rem;
+}
+.category-list li.add a.button {
+    font-size: inherit;
+    font-weight: bold;
+    text-align: left !important;
+}
+.category-list li.add a:hover {
+    background-color: rgba(20, 124, 192, 1);
+    border-left: 0;
+    padding-left: 1rem;
+}
+.category-list li.add a:before {
+    content: "+";
+    font-size: larger;
+    font-weight: bold;
+    margin-top: -0.4125rem;
+    top: 41.25%;
+}
 
 
 /*--------------------------------------------------------------------
@@ -237,20 +373,21 @@ h2 .button {
     
 }
 .panel-title {
-    background: #e6e6e6;
-    border: 1px solid #d6d6d6;
+    background: rgba(230, 230, 230, 1.0);
+    border: 1px solid rgba(214, 214, 214, 1.0);
     font-weight: bold;
     line-height: 1;
-    padding: 0.7rem 1rem;
+    padding: 1rem 1rem;
+    position: relative;
 }
 .panel ul {
-    border: 1px solid #e6e6e6;
+    border: 1px solid rgba(230, 230, 230, 1.0);
 }
 .panel-title + ul {
     border-top: none;
 }
 .panel li {
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid rgba(230, 230, 230, 1.0);
 }
 .panel li:last-child {
     border-bottom: none;
@@ -262,56 +399,26 @@ h2 .button {
     background-color: rgba(33, 153, 232, 0.1);
     font-weight: bold;
 }
-
-
-/*--------------------------------------------------------------------
-  Profile
---------------------------------------------------------------------*/
-.profile-info {
-    display: inline-block;
-    position: relative;
-    top: 0.75rem;
-}
-.profile-pic {
-    display: inline-block;
-    height: 3rem;
-    overflow: hidden;
-    width: 3rem;
-}
-.profile-pic img {
-    border: 1px solid rgba(0, 0, 0, 0.125);
-    height: 100%;
-    max-width: 100%;
-    vertical-align: inherit;
-    width: 100%;
-    border-radius: 4rem 4rem 4rem 4rem;
-    -moz-border-radius: 4rem 4rem 4rem 4rem;
-    -webkit-border-radius: 4rem 4rem 4rem 4rem;
-}
-.profile-name {
-    font-size: 1rem;
+.panel-title .button {
+    margin: 0;
+    padding: 0.4375rem 0.5rem 0.4375rem 0.5625rem;
+    position: absolute;
+    right: 0.6875rem;
+    top: 0.6875rem;
 }
 
 
 /*--------------------------------------------------------------------
   Flash Messages
 --------------------------------------------------------------------*/
-.flash-table {
+.callout {
+    overflow: hidden;
+}
+.callout .close-button {
     font-size: 1.5rem;
-}
-.flash-table thead,
-.flash-table tbody,
-.flash-table tfoot {
-    background-color: transparent;
-    border: none;
-}
-.flash-table td {
     padding: 0.5rem;
-}
-.flash-table .profile-pic {
-    display: block;
-    height: 4rem;
-    width: 4rem;
+    right: 0;
+    top: -0.3875rem;
 }
 
 
@@ -324,8 +431,13 @@ i.on-left {
 i.on-right {
     margin-left: 0.25rem;
 }
+.secondary {
+    color: rgba(128, 128, 128, 1.0);
+    font-size: smaller;
+    font-style: italic;
+}
 .spinner {
-    color: #ababab;
+    color: rgba(171, 171, 171, 1.0);
     font-size: 3rem;
 }
 .text-smaller {
@@ -334,6 +446,10 @@ i.on-right {
 .text-larger {
     font-size: larger;
 }
+.vertical-divider {
+    color: rgba(178, 178, 178, 1);
+    padding: 0 0.5rem;
+}
 
 
 /*--------------------------------------------------------------------
@@ -341,8 +457,7 @@ i.on-right {
 --------------------------------------------------------------------*/
 @media only screen and (max-width: 40em) {
 
-    .off-canvas-content {
-        /*padding-top: 6.625rem;*/
+    .off-canvas-content.fixed {
         padding-top: 5.625rem;
     }
 
@@ -350,6 +465,10 @@ i.on-right {
         padding: 0.625rem 0;
     }
 
+    .top-bar {
+        border-bottom: none;
+        padding: 0;
+    }
     .top-bar.fixed {
         height: 5.625rem;
         padding: 0;
@@ -364,6 +483,9 @@ i.on-right {
     .top-bar .menu-text {
         font-size: 1rem;
     }
+    .top-bar-left .menu-text {
+        padding: 0.7rem 0.625rem;
+    }
     .top-bar-right .menu-text {
         padding: 0.4125rem 0.5rem;
     }
@@ -371,65 +493,21 @@ i.on-right {
         font-size: 0.6875rem;
         padding: 0.5rem 0.8125rem;
     }
+    .top-bar .categories-menu button {
+        padding:  0.95rem 0.625rem 1rem;
+    }
 
     .breadcrumbs-wrapper {
         border-top: 1px solid white;
     }
 
+    .byline {
+        font-size: 0.75rem;
+        padding-top: 0.4125rem;
+    }
+
+    .callout p {
+        font-size: 0.875rem;
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*.puppy-card {
-    padding: 0.5rem;
-    text-align: left;
-}
-ul .puppy-card {
-    font-weight: bold;
-    text-align: center;
-}
-.puppy-card .contents {
-    background: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-    padding: 1rem;
-}
-ul .puppy-card .contents {
-    padding: 0.5rem;
-}
-.puppy-card img {
-    float: left;
-    height: auto;
-    width: 100%;
-}
-ul .puppy-card img {
-    float: none;
-    height: 200px;
-    margin-bottom: 0.4125rem;
-    margin-right: 0;
-    width: auto;
-}
-.puppy-card .contents:after {
-    clear: both;
-    content: " ";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}*/
-
-
-

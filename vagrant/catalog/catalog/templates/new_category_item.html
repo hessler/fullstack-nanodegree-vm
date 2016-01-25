@@ -15,23 +15,23 @@
             <div class="columns medium-12">
                 <h1>New Item</h1>
             </div>
-            <div class="columns medium-8">
+            <div class="columns medium-8 small-12">
                 <label for="name">Name:</label>
                 <input type="text" name="name" required="required"/>
             </div>
-            <div class="columns medium-8">
+            <div class="columns medium-8 small-12">
                 <label for="description">Description:</label>
                 <textarea name="description" rows="3" required="required"></textarea>
             </div>
-            <div class="columns medium-8 end">
+            <div class="columns medium-8 small-12 end">
                 <label for="category">Category:</label>
                 <select name="category">
-                    {% for category in categories %}
-                    <option value="{{ category.id }}"{% if request.form.get('category', '')|int == category.id %} selected="selected"{% endif %}>{{ category.name }}</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.id }}"{% if request.form.get('category', '')|int == cat.id %} selected="selected"{% endif %}>{{ cat.name }}</option>
                     {% endfor %}
                 </select>
                 <div class="button-lineup round">
-                    <a href="{{ url_for('index') }}" title="Cancel" class="button small secondary"><i class="fa fa-ban"></i> Cancel</a>
+                    <a href="{{ url_for('category_info', category_id=category.id) }}" title="Cancel" class="button small secondary"><i class="fa fa-ban"></i> Cancel</a>
                     <button type="submit" title="Add Item" class="button small primary"><i class="fa fa-plus"></i> Add</button>
                 </div>
             </div>

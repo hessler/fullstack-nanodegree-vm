@@ -16,14 +16,19 @@
         <div class="columns medium-3 show-for-medium">
             {% include 'includes/category_list.html' %}
         </div>
-        <div class="columns medium-9 small-12">
+        <div class="columns medium-9 small-12 category-info">
             <h1>{{ item.name }}</h1>
+            {% if creator %}
+            <p class="byline">
+                <a href="{{ creator.picture }}" title="{{ creator.name }}" target="_blank"><img src="{{ creator.picture }}" alt="{{ creator.name }}"/></a> Created by <a href="{{ creator.picture }}" title="{{ creator.name }}">{{ creator.name }}</a>{% if creator.id == user.id %} <span class="vertical-divider">|</span> <a href="{{ url_for('edit_category_item', item_id=item.id) }}" title="Edit Item"><i class="fa fa-pencil"></i></a> <span class="vertical-divider">|</span> <a href="{{ url_for('delete_category_item', item_id=item.id) }}" title="Delete Item"><i class="fa fa-trash"></i></a>{% endif %}
+            </p>
+            {% endif %}
             <p>{{ item.description }}</p>
             {% if user.id == creator.id %}
-            <div class="button-lineup round">
+            <!--<div class="button-lineup round">
                 <a href="{{ url_for('edit_category_item', item_id=item.id) }}" title="Edit" class="button small text-larger"><i class="fa fa-pencil"></i> Edit</a>
-                <a href="{{ url_for('delete_category_item', item_id=item.id) }}" title="Delete" class="button small text-larger"><i class="fa fa-trash"></i> Delete</a>
-            </div>
+                <a href="{{ url_for('delete_category_item', item_id=item.id) }}" title="Delete" class="button small text-larger alert"><i class="fa fa-trash"></i> Delete</a>
+            </div>-->
             {% endif %}
         </div>
 {% endblock %}

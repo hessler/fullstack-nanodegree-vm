@@ -13,30 +13,23 @@
         <div class="columns medium-3 show-for-medium">
             {% include('includes/category_list.html') %}
         </div>
-        <div class="columns medium-9 small-12">
-            <h1>{{ category.name }} ({{ category_items|length }} item{% if category_items|length != 1 %}s{% endif %}) {% if creator %}
-            <div class="profile-info">
-            <div class="profile-pic">
-                <img src="{{ creator.picture }}" alt="{{ creator.name }}"/>
-            </div>
-            <span class="profile-name">
-                {{ creator.name }}
-            </span>
-            </div>
-            {% endif %}</h1>
-            
+        <div class="columns medium-9 small-12 category-info">
+            <h1>{{ category.name }} <span class="secondary">({{ category_items|length }} item{% if category_items|length != 1 %}s{% endif %})</span></h1>
+            {% if creator %}
+            <p class="byline">
+                <a href="{{ creator.picture }}" title="{{ creator.name }}" target="_blank"><img src="{{ creator.picture }}" alt="{{ creator.name }}"/></a> Created by <a href="{{ creator.picture }}" title="{{ creator.name }}">{{ creator.name }}</a>{% if creator.id == user.id %} <span class="vertical-divider">|</span> <a href="{{ url_for('edit_category', category_id=category.id) }}" title="Edit Category"><i class="fa fa-pencil"></i></a> <span class="vertical-divider">|</span> <a href="{{ url_for('delete_category', category_id=category.id) }}" title="Delete Category"><i class="fa fa-trash"></i></a> {% endif %}{% if user %}<span class="vertical-divider">|</span> <a onclick="add_item_form.submit()" title="Add New Item"><i class="fa fa-plus-circle"></i></a>{% endif %}
+            </p>
+            {% endif %}
             <ul class="arrow-list">
             {% for item in category_items %}
                 <li><a href="{{ url_for('category_item_info', item_id=item.id) }}" title="{{ item.name }}">{{ item.name }}</a></li>
             {% endfor %}
             </ul>
-            {% if user.id == creator.id %}
+            {% if user %}
             <div class="button-lineup round">
-                <form method="post" action="{{ url_for('new_category_item') }}">
+                <form method="post" action="{{ url_for('new_category_item') }}" name="add_item_form">
                     <input type="hidden" value="{{ category.id }}" name="category"/>
-                    <a href="{{ url_for('edit_category', category_id=category.id) }}" class="button small"><i class="fa fa-pencil"></i> Edit</a>
-                    <a href="{{ url_for('delete_category', category_id=category.id) }}" class="button small"><i class="fa fa-trash"></i> Delete</a>
-                    <button type="submit" title="Add New Item" class="button small primary"><i class="fa fa-plus"></i> Add</button>
+                    <!--<button type="submit" title="Add New Item" class="button small"><i class="fa fa-plus"></i> Add Item</button>-->
                 </form>
             </div>
             {% endif %}
