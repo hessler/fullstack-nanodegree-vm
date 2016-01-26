@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ item.name }} | Catalog App{% endblock %}
+{% block description %}Information about {{ item.name }}.{% endblock %}
+{% block breadcrumbs_items %}
+    <li>
+        <a href="{{ url_for('category_info', category_id=item.category.id) }}" title="{{ item.category.name }}">{{ item.category.name }}</a>
+    </li>
+    <li>
+        <span class="show-for-sr">Current: </span> {{ item.name }}</em>
+    </li>
+{% endblock %}
+{% block content %}
+        <div class="columns">
+            {% include 'flash_messages.html' %}
+        </div>
+        <div class="columns medium-3 show-for-medium">
+            {% include 'includes/category_list.html' %}
+        </div>
+        <div class="columns medium-9 small-12 category-info">
+            <h1>{{ item.name }}</h1>
+            {% if creator %}
+            <div class="media-object byline">
+                <div class="media-object-section">
+                    <a href="{{ creator.picture }}" title="{{ creator.name }}" target="_blank"><img src="{{ creator.picture }}" alt="{{ creator.name }}"/></a>
+                </div>
+                <div class="media-object-section">
+                    <span class="creator">Created by <a href="{{ creator.picture }}" title="{{ creator.name }}">{{ creator.name }}</a></span><div class="edit-controls">{% if creator.id == user.id %}<a href="{{ url_for('edit_category_item', item_id=item.id) }}" title="Edit Item" class="badge"><i class="fa fa-pencil"></i></a><a href="{{ url_for('delete_category_item', item_id=item.id) }}" title="Delete Item" class="badge"><i class="fa fa-trash"></i></a>{% endif %}</div>
+                </div>
+            </div>
+            {% endif %}
+            <p>{{ item.description }}</p>
+        </div>
+{% endblock %}

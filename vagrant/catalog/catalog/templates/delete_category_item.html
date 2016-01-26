@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Delete Item | Catalog App{% endblock %}
+{% block description %}Use this simple form to delete an existing item.{% endblock %}
+{% block breadcrumbs_items %}
+    <li>
+        <a href="{{ url_for('category_info', category_id=item.category.id) }}" title="{{ item.category.name }}">{{ item.category.name }}</a>
+    </li>
+    <li>
+        <a href="{{ url_for('category_item_info', item_id=item.id) }}" title="{{ item.name }}">{{ item.name }}</a>
+    </li>
+    <li>
+        <span class="show-for-sr">Current: </span> Delete
+    </li>
+{% endblock %}
+{% block content %}
+        <div class="columns">
+            {% include 'flash_messages.html' %}
+        </div>
+        <div class="columns">
+            <h1>Delete Item</h1>
+            <p>Are you sure you want to delete the item <strong><em>{{ item.name }}</em></strong>?</p>
+            <form action="{{ url_for('delete_category_item', item_id=item.id) }}" method="post">
+                <div class="button-lineup round">
+                    <a href="{{ url_for('category_item_info', item_id=item.id) }}" title="Cancel" class="button small secondary"><i class="fa fa-ban"></i> No</a>
+                    <button type="submit" title="Delete Item" class="button small primary"><i class="fa fa-check"></i> Yes</button>
+                </div>
+            </form>
+        </div>
+{% endblock %}

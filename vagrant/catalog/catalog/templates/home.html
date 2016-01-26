@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Catalog App | A Python/Flask Project for Udacity's Full Stack Web Developer Nanodegree program.{% endblock %}
+{% block description %}A list of all categories and most recent category items.{% endblock %}
+{% block content %}
+        <div class="columns">
+            {% include 'flash_messages.html' %}
+        </div>
+        <div class="columns medium-3 show-for-medium">
+            {% include 'includes/category_list.html' %}
+        </div>
+        <div class="columns medium-9 small-12 home-info">
+            <h1>{% if show_all %}All the Things!{% else %}Latest &amp; Greatest{% endif %} <span class="secondary">({{ num_items }} items)</span></h1>
+            <div class="byline home-lineup">
+            {% if not show_all %}
+                <a href="{{ url_for('index', show_all=true) }}" title="View All Items"><i class="fa fa-eye on-left"></i> View All Items</a>
+            {% else %}
+                <a href="{{ url_for('index') }}" title="View Latest Items"><i class="fa fa-clock-o on-left"></i> View Latest Items</a>
+            {% endif %}
+            {% if user %}
+                <span class="vertical-divider">|</span> <a href="{{ url_for('new_category_item') }}" title="Add New Item"><i class="fa fa-plus-circle on-left"></i> Add Item</a>
+            {% endif %}
+            </div>
+            <ul class="arrow-list">
+                {% for item in latest_items %}
+                <li><a href="{{ url_for('category_item_info', item_id=item.id) }}" title="{{ item.name }}">{{ item.name }} ({{ item.category.name }})</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+{% endblock %}

@@ -1,0 +1,8 @@
+<div class="panel">
+    <div class="panel-title">Categories{% if user %} <a href="{{ url_for('new_category') }}" title="Add New Category" class="icon"><i class="fa fa-plus-circle"></i></a>{% endif %}</div>
+    <ul class="menu vertical category-list">
+        {% for cat in categories %}
+        <li><a href="{{ url_for('category_info', category_id=cat.id) }}" title="{{ cat.name }}"{% if category and cat.id == category.id %} class="active"{% endif %}>{{ cat.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

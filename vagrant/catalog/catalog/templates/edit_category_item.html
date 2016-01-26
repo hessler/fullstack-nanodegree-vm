@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Edit Item | Catalog App{% endblock %}
+{% block description %}Use this simple form to edit an existing item.{% endblock %}
+{% block breadcrumbs_items %}
+    <li>
+        <a href="{{ url_for('category_info', category_id=item.category.id) }}" title="{{ item.category.name }}">{{ item.category.name }}</a>
+    </li>
+    <li>
+        <a href="{{ url_for('category_item_info', item_id=item.id) }}" title="{{ item.name }}">{{ item.name }}</a>
+    </li>
+    <li>
+        <span class="show-for-sr">Current: </span> Edit
+    </li>
+{% endblock %}
+{% block content %}
+        <div class="columns">
+            {% include 'flash_messages.html' %}
+        </div>
+        <form method="post" name="new_category">
+            <input type="hidden" name="user_id" value="{{ user.id }}"/>
+            <div class="columns medium-12">
+                <h1>{{ item.name }} <span class="secondary">(Editing)</span></h1>
+            </div>
+            <div class="columns medium-8 small-12">
+                <label for="name">Name:</label>
+                <input type="text" name="name" value="{{ item.name }}" required="required"/>
+            </div>
+            <div class="columns medium-8 small-12">
+                <label for="description">Description:</label>
+                <textarea name="description" rows="3" required="required">{{ item.description }}</textarea>
+            </div>
+            <div class="columns medium-8 small-12 end">
+                <label for="category">Category:</label>
+                <select name="category">
+                    {% for category in categories %}
+                    <option value="{{ category.id }}"{% if item.category_id == category.id %} selected="selected"{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="button-lineup round">
+                    <a href="{{ url_for('category_item_info', item_id=item.id) }}" title="Cancel" class="button small secondary"><i class="fa fa-ban"></i> Cancel</a>
+                    <button type="submit" title="Update Item" class="button small primary"><i class="fa fa-refresh"></i> Update</button>
+                </div>
+            </div>
+        </form>
+{% endblock %}

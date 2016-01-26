@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Add New Item | Catalog App{% endblock %}
+{% block description %}Use this simple form to add a new item.{% endblock %}
+{% block breadcrumbs_items %}
+    <li>
+        <span class="show-for-sr">Current: </span> New Item
+    </li>
+{% endblock %}
+{% block content %}
+        <div class="columns">
+            {% include 'flash_messages.html' %}
+        </div>
+        <form method="post" name="new_category_item">
+            <input type="hidden" name="user_id" value="{{ user.id }}"/>
+            <div class="columns medium-12">
+                <h1>New Item</h1>
+            </div>
+            <div class="columns medium-8 small-12">
+                <label for="name">Name:</label>
+                <input type="text" name="name" required="required"/>
+            </div>
+            <div class="columns medium-8 small-12">
+                <label for="description">Description:</label>
+                <textarea name="description" rows="3" required="required"></textarea>
+            </div>
+            <div class="columns medium-8 small-12 end">
+                <label for="category">Category:</label>
+                <select name="category">
+                    {% for cat in categories %}
+                    <option value="{{ cat.id }}"{% if request.form.get('category', '')|int == cat.id %} selected="selected"{% endif %}>{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="button-lineup round">
+                    <a href="{{ url_for('category_info', category_id=category.id) }}" title="Cancel" class="button small secondary"><i class="fa fa-ban"></i> Cancel</a>
+                    <button type="submit" title="Add Item" class="button small primary"><i class="fa fa-plus"></i> Add</button>
+                </div>
+            </div>
+        </form>
+{% endblock %}

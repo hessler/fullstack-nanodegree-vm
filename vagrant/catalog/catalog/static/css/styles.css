@@ -1,0 +1,545 @@
+/*--------------------------------------------------------------------
+  Global HTML Elements
+--------------------------------------------------------------------*/
+body {
+    background: rgba(34, 34, 34, 1.0);
+}
+ul.arrow-list li {
+    list-style: none;
+}
+ul.arrow-list li:before {
+    bottom: 0.1875rem;
+    content: "\f105";
+    display: inline-block;
+    font-family: FontAwesome;
+    font-size: 0.625rem;
+    font-style: normal;
+    font-weight: normal;
+    padding-right: 0.25rem;
+    position: relative;
+    text-decoration: inherit;
+}
+h1 {
+    border-bottom: 1px dotted rgba(204, 204, 204, 1.0);
+}
+h2 {
+    font-weight: 200;
+    margin-bottom: 1rem;
+}
+h4 {
+    font-weight: 500;
+    margin-bottom: 0;
+}
+form label {
+    font-weight: 500;
+}
+*:focus {
+    outline: none;
+}
+
+
+/*--------------------------------------------------------------------
+  Byline
+--------------------------------------------------------------------*/
+.byline {
+    border-bottom: 1px dotted rgba(0, 0, 0, 0.25);
+    border-top: 1px dotted rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.9375rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+    padding: 0.25rem;
+}
+.byline .media-object-section:first-child {
+    padding-right: 0.5rem;
+}
+.byline p:last-child {
+    margin-bottom: 0;
+}
+.byline img {
+    box-shadow: 0 0 0.0625rem rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 0 0 0.0625rem rgba(0, 0, 0, 0.25);
+    height: 1.5rem;
+    max-height: 1.5rem;
+    max-width: 1.5rem;
+    width: 1.5rem;
+}
+.byline .badge {
+    margin: 0 0.25rem;
+}
+.byline .badge:first-child {
+    margin-left: 0;
+}
+.byline a.badge i,
+.byline a.badge i:hover {
+    color: white;
+}
+.creator {
+    padding-right: 1.25rem;
+}
+.edit-controls {
+    display: inline-block;
+}
+
+
+/*--------------------------------------------------------------------
+  Buttons & Button Containers
+--------------------------------------------------------------------*/
+.button-lineup.home-lineup {
+    border-bottom: 1px dotted rgba(204, 204, 204, 1.0);
+    margin-bottom: 1rem;
+}
+.home-lineup {
+    font-style: normal;
+}
+.button-lineup .button {
+    margin-bottom: 0.5rem;
+}
+.button-lineup a.button,
+.button-lineup .button {
+    font-weight: bold;
+    margin: 0 0.5rem 0.5rem 0;
+}
+.button-lineup a.button i,
+.button-lineup .button i {
+    margin-right: 0.25rem;
+}
+.button-lineup.round a.button,
+.button-lineup.round .button,
+a.button.round,
+.button.round {
+    border-radius: 2rem 2rem 2rem 2rem;
+    -moz-border-radius: 2rem 2rem 2rem 2rem;
+    -webkit-border-radius: 2rem 2rem 2rem 2rem;
+}
+h2 .button {
+    margin: 0 0.75rem 0.5rem 0.75rem;
+    font-weight: bold;
+    border-radius: 2rem 2rem 2rem 2rem;
+    -moz-border-radius: 2rem 2rem 2rem 2rem;
+    -webkit-border-radius: 2rem 2rem 2rem 2rem;
+}
+
+
+/*--------------------------------------------------------------------
+  Off-Canvas Wrapper
+--------------------------------------------------------------------*/
+.off-canvas-wrapper {
+    background: rgba(34, 34, 34, 1.0);
+}
+
+
+/*--------------------------------------------------------------------
+  Off-Canvas Side Menu
+--------------------------------------------------------------------*/
+.off-canvas {
+    background: rgba(34, 34, 34, 1.0);
+    color: white;
+}
+.mobile-ofc {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    color: white;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+.mobile-ofc li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06125);
+    border-top: 1px solid rgba(0, 0, 0, 0.25);
+}
+.mobile-ofc li.menu-title {
+    background: rgba(18, 18, 18, 1.0);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1875);
+    border-top: none;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.7rem 1rem;
+}
+.mobile-ofc li.menu-title a:before {
+    content: "";
+}
+.mobile-ofc li.menu-title a.icon {
+    border: none;
+    font-size: 1.25rem;
+    margin: 0;
+    padding: 0.75rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    
+    -moz-transition: none;
+    -o-transition: none;
+    -webkit-transition: none;
+    transition: none;
+}
+.mobile-ofc li.menu-title a.icon i {
+    margin-right: 0;
+}
+.mobile-ofc li.menu-title .button:hover {
+    border-left: 0;
+    padding-left: 0.5rem;
+}
+.mobile-ofc li a,
+.mobile-ofc li a:link,
+.mobile-ofc li a:visited,
+.mobile-ofc li a:hover,
+.mobile-ofc li a:active {
+    color: white;
+}
+.mobile-ofc li a {
+    padding-left: 1rem;
+    -moz-transition: padding-left 0.1625s ease-in;
+    -o-transition: padding-left 0.1625s ease-in;
+    -webkit-transition: padding-left 0.1625s ease-in;
+    transition: padding-left 0.1625s ease-in;
+}
+.mobile-ofc li a:hover {
+    padding-left: 1.5rem;
+}
+
+
+/*--------------------------------------------------------------------
+  Main Canvas Content & Container
+--------------------------------------------------------------------*/
+.off-canvas-content {
+    background: rgba(34, 34, 34, 1.0);
+    color: white;
+}
+.off-canvas-content.fixed {
+    padding-top: 4.75rem;
+}
+.content-wrapper {
+    padding: 1.5rem 0;
+}
+.container {
+    background: rgba(252, 252, 252, 1.0);
+    color: rgba(12, 12, 12, 1.0);
+    min-height: 26rem;
+}
+
+
+/*--------------------------------------------------------------------
+  Top Bar
+--------------------------------------------------------------------*/
+.top-bar {
+    background: rgba(34, 34, 34, 1);
+    border-bottom: 1px solid black;
+    box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.5);
+    width: 100%;
+}
+.top-bar.fixed {
+    height: 4.75rem;
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+}
+.top-bar ul {
+    background: inherit;
+}
+.top-bar .columns {
+    padding: 0;
+}
+.top-bar .menu-text {
+    font-size: 1.5rem;
+}
+.top-bar .logo {
+    font-size: 2.25rem;
+}
+.top-bar .top-bar-left .menu li a {
+    padding-left: 0;
+    padding-right: 0;
+}
+.top-bar .top-bar-left .menu a,
+.top-bar .top-bar-left .menu a:link,
+.top-bar .top-bar-left .menu a:visited,
+.top-bar .top-bar-left .menu a:hover,
+.top-bar .top-bar-left .menu a:active {
+    color: white;
+}
+.top-bar .menu li a.button {
+    color: white;
+    font-weight: bold;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 2rem 2rem 2rem 2rem;
+    -moz-border-radius: 2rem 2rem 2rem 2rem;
+    -webkit-border-radius: 2rem 2rem 2rem 2rem;
+}
+.top-bar .menu li a.button i.login {
+    padding-right: 0.25rem;
+}
+.top-bar .menu li a.button i.logout {
+    padding-left: 0.3875rem;
+}
+.top-bar .breadcrumbs {
+    border-top: 1px solid rgba(204, 204, 204, 1.0);
+    margin: 0.25rem 0.7rem;
+    padding: 0.5rem 0.7rem 0 0.25rem;
+}
+.top-bar .categories-menu {
+    background: rgba(230, 230, 230, 1.0);
+    color: rgba(12, 12, 12, 1.0);
+    font-size: 0.8125rem;
+}
+.top-bar .categories-menu button {
+    font-weight: bold;
+    padding:  0.95rem 1rem 1rem;
+    text-align: left;
+    width: 100%;
+}
+
+
+/*--------------------------------------------------------------------
+  Breadcrumbs Navigation
+--------------------------------------------------------------------*/
+.breadcrumbs-wrapper {
+    background-color: rgba(33, 153, 232, 0.2);
+    border-bottom: 1px solid rgba(33, 153, 232, 0.125);
+    width: 100%;
+}
+.breadcrumbs {
+    margin: 0.8125rem 0;
+}
+.breadcrumbs li:not(:last-child)::after {
+    color: rgba(164, 164, 164, 1);
+}
+
+
+/*--------------------------------------------------------------------
+  Footer
+--------------------------------------------------------------------*/
+.footer {
+    border-top: 1px solid black;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.125);
+    -webkit-box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.125);
+    color: rgba(142, 142, 142, 1.0);
+    padding: 1rem 0;
+    text-align: center;
+}
+.footer p {
+    font-size: 0.875rem;
+    margin: 0;
+}
+.footer ul {
+    color: rgba(142, 142, 142, 1.0);
+    font-size: 1.5rem;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.footer li {
+    display: inline;
+    list-style-type: none;
+    padding: 0.125rem;
+}
+.footer a {
+    color: rgba(142, 142, 142, 1.0);
+    -moz-transition: color 0.1625s ease-in;
+    -o-transition: color 0.1625s ease-in;
+    -webkit-transition: color 0.1625s ease-in;
+    transition: color 0.1625s ease-in;
+}
+.footer a:hover {
+    color: white;
+}
+
+
+/*--------------------------------------------------------------------
+  Category Info & Home Info
+--------------------------------------------------------------------*/
+.category-info h1,
+.home-info h1 {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+
+/*--------------------------------------------------------------------
+  Category Lists
+--------------------------------------------------------------------*/
+.category-list li {
+    position: relative;
+}
+.category-list li a:before {
+    content: "▸";
+    margin-top: -0.5rem;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+}
+.category-list li a {
+    border-left: 0;
+    padding-left: 1rem;
+    -moz-transition: border-left 0.1625s ease-in;
+    -o-transition: border-left 0.1625s ease-in;
+    -webkit-transition: border-left 0.1625s ease-in;
+    transition: border-left 0.1625s ease-in;
+}
+.category-list li a:hover {
+    border-left: 0.5rem solid rgba(33, 153, 232, 1);
+    padding-left: 1rem;
+}
+.category-list li.add a.button {
+    font-size: inherit;
+    font-weight: bold;
+    text-align: left !important;
+}
+.category-list li.add a:hover {
+    background-color: rgba(20, 124, 192, 1);
+    border-left: 0;
+    padding-left: 1rem;
+}
+.category-list li.add a:before {
+    content: "+";
+    font-size: larger;
+    font-weight: bold;
+    margin-top: -0.4125rem;
+    top: 41.25%;
+}
+
+
+/*--------------------------------------------------------------------
+  Panels
+--------------------------------------------------------------------*/
+.panel ul {
+    border: 1px solid rgba(230, 230, 230, 1.0);
+}
+.panel-title + ul {
+    border-top: none;
+}
+.panel li {
+    border-bottom: 1px solid rgba(230, 230, 230, 1.0);
+}
+.panel li:last-child {
+    border-bottom: none;
+}
+.panel li a:hover {
+    background-color: rgba(33, 153, 232, 0.1);
+}
+.panel li a.active {
+    background-color: rgba(33, 153, 232, 0.1);
+    font-weight: bold;
+}
+.panel-title {
+    background: rgba(230, 230, 230, 1.0);
+    border: 1px solid rgba(214, 214, 214, 1.0);
+    font-weight: bold;
+    line-height: 1;
+    padding: 1rem 1rem;
+    position: relative;
+}
+.panel-title .button {
+    margin: 0;
+    padding: 0.4375rem 0.5rem 0.4375rem 0.5625rem;
+    position: absolute;
+    right: 0.6875rem;
+    top: 0.6875rem;
+}
+.panel-title a.icon {
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0.75rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+/*--------------------------------------------------------------------
+  Flash Messages
+--------------------------------------------------------------------*/
+.callout {
+    overflow: hidden;
+}
+.callout .close-button {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    right: 0;
+    top: -0.3875rem;
+}
+
+
+/*--------------------------------------------------------------------
+  Generic Shared Classes
+--------------------------------------------------------------------*/
+i.on-left {
+    margin-right: 0.25rem;
+}
+i.on-right {
+    margin-left: 0.25rem;
+}
+.secondary {
+    color: rgba(128, 128, 128, 1.0);
+    font-size: smaller;
+    font-style: italic;
+}
+.spinner {
+    color: rgba(171, 171, 171, 1.0);
+    font-size: 3rem;
+}
+.text-smaller {
+    font-size: smaller;
+}
+.text-larger {
+    font-size: larger;
+}
+.vertical-divider {
+    color: rgba(178, 178, 178, 1);
+    padding: 0 0.5rem;
+}
+
+
+/*--------------------------------------------------------------------
+  Media Queries
+--------------------------------------------------------------------*/
+@media only screen and (max-width: 40em) {
+
+    .off-canvas-content.fixed {
+        padding-top: 5.625rem;
+    }
+
+    .content-wrapper {
+        padding: 0.625rem 0;
+    }
+
+    .top-bar {
+        border-bottom: none;
+        padding: 0;
+    }
+    .top-bar.fixed {
+        height: 5.625rem;
+        padding: 0;
+    }
+    .top-bar-left,
+    .top-bar-right {
+        width: auto;
+    }
+    .top-bar .logo {
+        font-size: 1.425rem;
+    }
+    .top-bar .menu-text {
+        font-size: 1rem;
+    }
+    .top-bar-left .menu-text {
+        padding: 0.7rem 0.625rem;
+    }
+    .top-bar-right .menu-text {
+        padding: 0.4125rem 0.5rem;
+    }
+    .top-bar .menu li a.button {
+        font-size: 0.6875rem;
+        padding: 0.5rem 0.8125rem;
+    }
+    .top-bar .categories-menu button {
+        padding:  0.95rem 0.625rem 1rem;
+    }
+
+    .breadcrumbs-wrapper {
+        border-top: 1px solid rgba(0, 0, 0, 0.1875);
+    }
+
+    .callout p {
+        font-size: 0.875rem;
+    }
+
+}
