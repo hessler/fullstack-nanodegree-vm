@@ -19,7 +19,7 @@ from oauth2client.client import FlowExchangeError
 
 from sqlalchemy.orm.exc import NoResultFound
 
-import httplib2, json, random, requests, string, urllib
+import httplib2, json, random, requests, string
 
 FACEBOOK_JSON = 'catalog/client_secrets_facebook.json'
 GOOGLE_JSON = 'catalog/client_secrets_google.json'
@@ -40,6 +40,8 @@ def index():
     """
     Function to return a page listing all categories and most recent items.
     """
+
+    set_redirect_url()
 
     show_all = True if request.method == 'GET' and\
         str(request.args.get('show_all', False)).lower() == 'true'\
@@ -72,6 +74,8 @@ def category_info(category_id):
     Args:
         category_id: ID value of the category to view.
     """
+
+    set_redirect_url()
 
     # Retrieve Category object for template rendering.
     # If not found, render error template.
@@ -106,6 +110,8 @@ def category_item_info(item_id):
         item_id: ID value of the category item to view.
     """
 
+    set_redirect_url()
+
     # Retrieve CategoryItem object for template rendering.
     # If not found, render error template.
     category_item = db_session.query(CategoryItem)\
@@ -138,10 +144,11 @@ def new_category():
     Function to create a new category.
     """
 
+    set_redirect_url()
+
     user = get_user()
     if not user:
-        return redirect(url_for('login_with_redirect',
-                                redirect_url=urllib.quote_plus('/catalog/category/new/')))
+        return redirect(url_for('login'))
     if request.method == 'POST':
         category = Category(name=request.form['name'],
                             user_id=login_session['user_id'])
@@ -160,12 +167,13 @@ def new_category_item():
     Function to return a page to create a new category item.
     """
 
+    set_redirect_url()
+
     user = get_user()
     categories = get_all_objects_of_type(Category)
     category = None
     if not user:
-        return redirect(url_for('login_with_redirect',
-                                redirect_url=urllib.quote_plus('/catalog/item/new/')))
+        return redirect(url_for('login'))
     if request.method == 'POST':
         if request.form.get('name', '') == '' and request.form.get('category', '') != '':
             category = db_session.query(Category)\
@@ -215,7 +223,7 @@ def edit_category(category_id):
                                error_text='The specified category was not found.')
 
     # Make sure the user is the creator of the category.
-    if user.id != edited_item.user.id:
+    if not user or user and user.id != edited_item.user.id:
         return render_template('error.html',
                                headline_text='Access Denied',
                                error_text='Sorry, but you are not the creator of '\
@@ -256,7 +264,7 @@ def edit_category_item(item_id):
                                error_text='The specified item was not found.')
 
     # Make sure the user is the creator of the item.
-    if user.id != edited_item.user.id:
+    if not user or user and user.id != edited_item.user.id:
         return render_template('error.html',
                                headline_text='Access Denied',
                                error_text='Sorry, but you are not the creator of '\
@@ -303,7 +311,7 @@ def delete_category(category_id):
         return redirect(url_for('index'))
 
     # Make sure the user is the creator of the category.
-    if user.id != category.user.id:
+    if not user or user and user.id != category.user.id:
         return render_template('error.html',
                                headline_text='Access Denied',
                                error_text='Sorry, but you are not the creator of '\
@@ -351,7 +359,7 @@ def delete_category_item(item_id):
         category_id = item.category.id
 
     # Make sure the user is the creator of the item.
-    if user.id != item.user.id:
+    if not user or user and user.id != item.user.id:
         return render_template('error.html',
                                headline_text='Access Denied',
                                error_text='Sorry, but you are not the creator of '\
@@ -378,25 +386,15 @@ def delete_category_item(item_id):
 @app.route('/login/')
 def login():
     """
-    Function to return a page for user login.
-    """
-
-    # Create random number to store in session
-    state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
-    login_session['state'] = state
-    return render_template('login.html', STATE=state)
-
-@app.route('/login/?redirect_url=<redirect_url>')
-def login_with_redirect(redirect_url):
-    """
     Function to return a page for user login with redirect.
     """
 
     # Create random number to store in session
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
     login_session['state'] = state
-    login_session['redirect_url'] = redirect_url
-    return render_template('login.html', STATE=state)
+    if login_session.get('redirect_url', '') == '':
+        login_session['redirect_url'] = '/catalog/'
+    return render_template('login.html', STATE=state, REDIRECT_URL=login_session["redirect_url"])
 
 # Google
 @app.route('/gconnect', methods=['POST'])
@@ -677,6 +675,16 @@ def create_user():
         .filter_by(email=login_session['email'])\
         .one()
     return user.id
+
+def set_redirect_url():
+    """
+    Function to set the redirect_url key in login_session, used
+    when a user logs in to the site so they are redirected back
+    to the page they were on prior to logging in.
+    """
+
+    login_session['redirect_url'] = request.path
+
 
 
 #-----------------------------------------------------------------------

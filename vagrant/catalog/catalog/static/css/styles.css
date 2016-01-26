@@ -39,24 +39,46 @@ form label {
 
 
 /*--------------------------------------------------------------------
-  Byline & Profile
+  Byline
 --------------------------------------------------------------------*/
 .byline {
     border-bottom: 1px dotted rgba(0, 0, 0, 0.25);
     border-top: 1px dotted rgba(0, 0, 0, 0.25);
     color: rgba(0, 0, 0, 0.5);
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     font-style: italic;
     margin-bottom: 1rem;
-    padding: 0.3125rem 0.25rem 0.25rem;
+    padding: 0.25rem;
+}
+.byline .media-object-section:first-child {
+    padding-right: 0.5rem;
+}
+.byline p:last-child {
+    margin-bottom: 0;
 }
 .byline img {
     box-shadow: 0 0 0.0625rem rgba(0, 0, 0, 0.25);
     -webkit-box-shadow: 0 0 0.0625rem rgba(0, 0, 0, 0.25);
-    display: inline-block;
     height: 1.5rem;
-    margin: -0.25rem 0.25rem 0 0;
+    max-height: 1.5rem;
+    max-width: 1.5rem;
     width: 1.5rem;
+}
+.byline .badge {
+    margin: 0 0.25rem;
+}
+.byline .badge:first-child {
+    margin-left: 0;
+}
+.byline a.badge i,
+.byline a.badge i:hover {
+    color: white;
+}
+.creator {
+    padding-right: 1.25rem;
+}
+.edit-controls {
+    display: inline-block;
 }
 
 
@@ -69,7 +91,6 @@ form label {
 }
 .home-lineup {
     font-style: normal;
-    /*padding: 0.5rem;*/
 }
 .button-lineup .button {
     margin-bottom: 0.5rem;
@@ -136,17 +157,22 @@ h2 .button {
 .mobile-ofc li.menu-title a:before {
     content: "";
 }
-.mobile-ofc li.menu-title .button {
+.mobile-ofc li.menu-title a.icon {
+    border: none;
+    font-size: 1.25rem;
     margin: 0;
-    padding: 0.4375rem 0.5rem 0.4375rem 0.5625rem;
+    padding: 0.75rem;
     position: absolute;
-    right: 0.6875rem;
-    top: 0.6875rem;
+    right: 0;
+    top: 0;
     
     -moz-transition: none;
     -o-transition: none;
     -webkit-transition: none;
     transition: none;
+}
+.mobile-ofc li.menu-title a.icon i {
+    margin-right: 0;
 }
 .mobile-ofc li.menu-title .button:hover {
     border-left: 0;
@@ -195,7 +221,10 @@ h2 .button {
   Top Bar
 --------------------------------------------------------------------*/
 .top-bar {
-    border-bottom: 1px solid rgba(204, 204, 204, 1.0);
+    background: rgba(34, 34, 34, 1);
+    border-bottom: 1px solid black;
+    box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.5);
     width: 100%;
 }
 .top-bar.fixed {
@@ -203,6 +232,9 @@ h2 .button {
     position: fixed;
     top: 0;
     z-index: 9999;
+}
+.top-bar ul {
+    background: inherit;
 }
 .top-bar .columns {
     padding: 0;
@@ -222,7 +254,7 @@ h2 .button {
 .top-bar .top-bar-left .menu a:visited,
 .top-bar .top-bar-left .menu a:hover,
 .top-bar .top-bar-left .menu a:active {
-    color: rgba(34, 34, 34, 1.0);
+    color: white;
 }
 .top-bar .menu li a.button {
     color: white;
@@ -245,8 +277,8 @@ h2 .button {
     padding: 0.5rem 0.7rem 0 0.25rem;
 }
 .top-bar .categories-menu {
-    background: rgba(34, 34, 34, 1.0);
-    color: white;
+    background: rgba(230, 230, 230, 1.0);
+    color: rgba(12, 12, 12, 1.0);
     font-size: 0.8125rem;
 }
 .top-bar .categories-menu button {
@@ -338,10 +370,10 @@ h2 .button {
 .category-list li a {
     border-left: 0;
     padding-left: 1rem;
-    -moz-transition: /*padding-left 0.1625s ease-in, */border-left 0.1625s ease-in;
-    -o-transition: /*padding-left 0.1625s ease-in, */border-left 0.1625s ease-in;
-    -webkit-transition: /*padding-left 0.1625s ease-in, */border-left 0.1625s ease-in;
-    transition: /*padding-left 0.1625s ease-in, */border-left 0.1625s ease-in;
+    -moz-transition: border-left 0.1625s ease-in;
+    -o-transition: border-left 0.1625s ease-in;
+    -webkit-transition: border-left 0.1625s ease-in;
+    transition: border-left 0.1625s ease-in;
 }
 .category-list li a:hover {
     border-left: 0.5rem solid rgba(33, 153, 232, 1);
@@ -369,17 +401,6 @@ h2 .button {
 /*--------------------------------------------------------------------
   Panels
 --------------------------------------------------------------------*/
-.panel {
-    
-}
-.panel-title {
-    background: rgba(230, 230, 230, 1.0);
-    border: 1px solid rgba(214, 214, 214, 1.0);
-    font-weight: bold;
-    line-height: 1;
-    padding: 1rem 1rem;
-    position: relative;
-}
 .panel ul {
     border: 1px solid rgba(230, 230, 230, 1.0);
 }
@@ -399,12 +420,28 @@ h2 .button {
     background-color: rgba(33, 153, 232, 0.1);
     font-weight: bold;
 }
+.panel-title {
+    background: rgba(230, 230, 230, 1.0);
+    border: 1px solid rgba(214, 214, 214, 1.0);
+    font-weight: bold;
+    line-height: 1;
+    padding: 1rem 1rem;
+    position: relative;
+}
 .panel-title .button {
     margin: 0;
     padding: 0.4375rem 0.5rem 0.4375rem 0.5625rem;
     position: absolute;
     right: 0.6875rem;
     top: 0.6875rem;
+}
+.panel-title a.icon {
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0.75rem;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 
@@ -498,12 +535,7 @@ i.on-right {
     }
 
     .breadcrumbs-wrapper {
-        border-top: 1px solid white;
-    }
-
-    .byline {
-        font-size: 0.75rem;
-        padding-top: 0.4125rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.1875);
     }
 
     .callout p {

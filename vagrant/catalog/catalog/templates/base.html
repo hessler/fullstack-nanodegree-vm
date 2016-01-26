@@ -32,7 +32,7 @@
                                         <li class="menu-text"><a href="{{ url_for('index') }}" title="Catalog App Home"><i class="fa fa-folder-open logo"></i> Catalog App</a></li>
                                     </ul>
                                 </div>
-                                {% if request.path != '/login/' and request.path != '/logout/' %}
+                                {% if request.path not in ['/login/', '/logout/'] %}
                                 <div class="top-bar-right">
                                     <ul class="dropdown menu">
                                         <li class="menu-text">
@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    {% if request.path != '/login/' and request.path != '/logout/' %}
+                    {% if request.path not in ['/', '/catalog/', '/login/', '/logout/'] %}
                     <div class="breadcrumbs-wrapper">
                         <div class="row">
                             <div class="columns">

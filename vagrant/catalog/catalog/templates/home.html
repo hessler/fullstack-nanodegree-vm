@@ -12,12 +12,12 @@
             <h1>{% if show_all %}All the Things!{% else %}Latest &amp; Greatest{% endif %} <span class="secondary">({{ num_items }} items)</span></h1>
             <div class="byline home-lineup">
             {% if not show_all %}
-                <a href="{{ url_for('index', show_all=true) }}" title="View All Items"><i class="fa fa-eye"></i> View All Items</a>
+                <a href="{{ url_for('index', show_all=true) }}" title="View All Items"><i class="fa fa-eye on-left"></i> View All Items</a>
             {% else %}
-                <a href="{{ url_for('index') }}" title="View Latest Items"><i class="fa fa-clock-o"></i> View Latest Items</a>
+                <a href="{{ url_for('index') }}" title="View Latest Items"><i class="fa fa-clock-o on-left"></i> View Latest Items</a>
             {% endif %}
             {% if user %}
-                <span class="vertical-divider">|</span> <a href="{{ url_for('new_category_item') }}" title="Add New Item"><i class="fa fa-plus-circle"></i> Add Item</a>
+                <span class="vertical-divider">|</span> <a href="{{ url_for('new_category_item') }}" title="Add New Item"><i class="fa fa-plus-circle on-left"></i> Add Item</a>
             {% endif %}
             </div>
             <ul class="arrow-list">

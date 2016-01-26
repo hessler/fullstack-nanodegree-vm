@@ -21,7 +21,7 @@
             		    data-accesstype="offline"
             		    data-cookiepolicy="single_host_origin"
             		    data-callback="googleSignInCallback"
-            		    data-approvalprompt="force">
+            		    data-approvalprompt="auto">
             		</span>
             	</div>
                 <div id="signinButtonFacebook">
@@ -96,10 +96,12 @@ function googleSignInCallback(authResult) {
             complete: function(requestObject, textStatus) {
                 if (requestObject['status'] >= 200 && requestObject['status'] < 300) {
                     var redirectURL = getParameterByName('redirect_url');
-                    if (redirectURL !== '') {
-                        window.location.href = redirectURL;
+                    if ('{{REDIRECT_URL}}' !== '') {
+                        window.location.pathname = '{{ REDIRECT_URL }}';
+                    } else if (redirectURL !== '') {
+                        window.location.pathname = redirectURL;
                     } else {
-                        window.location.href = "/catalog";
+                        window.location.pathname = "/catalog";
                     }
                 } else {
                     showFeedback('error', requestObject['responseText']);
@@ -124,10 +126,12 @@ function sendTokenToServer() {
             complete: function(requestObject, textStatus) {
                 if (requestObject['status'] >= 200 && requestObject['status'] < 300) {
                     var redirectURL = getParameterByName('redirect_url');
-                    if (redirectURL !== '') {
-                        window.location.href = redirectURL;
+                    if ('{{REDIRECT_URL}}' !== '') {
+                        window.location.pathname = '{{ REDIRECT_URL }}';
+                    } else if (redirectURL !== '') {
+                        window.location.pathname = redirectURL;
                     } else {
-                        window.location.href = "/catalog";
+                        window.location.pathname = "/catalog";
                     }
                 } else {
                     showFeedback('error', requestObject['responseText']);
